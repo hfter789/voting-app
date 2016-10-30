@@ -21,7 +21,7 @@ import {
 
 import {
   getVoteList
-} from 'database';
+} from './database';
 
 /**
  * Define your own types here
@@ -44,20 +44,13 @@ const voteType = new GraphQLObjectType({
   name: 'VoteInfo',
   description: 'vote summary about how many votes each options get',
   fields: () => ({
+    topic: {
+      type: GraphQLString
+    },
     voteOptions: {
       type: new GraphQLList(voteOptionType),
     }
   })
-});
-
-const voteListType = new GraphQLObjectType({
-  name: 'VoteList',
-  description: 'list of votes',
-  fields: () => ({
-    voteList: {
-      type: new GraphQLList(voteType),
-    }
-  }),
 });
 
 /**
@@ -67,9 +60,8 @@ const voteListType = new GraphQLObjectType({
 const queryType = new GraphQLObjectType({
   name: 'Query',
   fields: () => ({
-    node: nodeField,
-    game: {
-      type: voteListType,
+    voteList: {
+      type: new GraphQLList(voteType),
       resolve: () => getVoteList(),
     },
   }),
