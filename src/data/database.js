@@ -6,11 +6,11 @@ export const getVoteList = () => {
         voteOptions: [
         	{
         		desc: 'desc',
-        		vote: 5
+        		voteCount: 5
         	},
         	{
         		desc: 'desc2',
-        		vote: 10
+        		voteCount: 10
         	}
         ],
       },
@@ -20,11 +20,11 @@ export const getVoteList = () => {
         voteOptions: [
         	{
         		desc: 'desc',
-        		vote: 5
+        		voteCount: 5
         	},
         	{
         		desc: 'desc2',
-        		vote: 10
+        		voteCount: 10
         	}
         ],
       },
@@ -34,11 +34,11 @@ export const getVoteList = () => {
         voteOptions: [
         	{
         		desc: 'desc',
-        		vote: 5
+        		voteCount: 5
         	},
         	{
         		desc: 'desc2',
-        		vote: 10
+        		voteCount: 10
         	}
         ],
       },
@@ -48,11 +48,11 @@ export const getVoteList = () => {
         voteOptions: [
         	{
         		desc: 'desc',
-        		vote: 5
+        		voteCount: 5
         	},
         	{
         		desc: 'desc2',
-        		vote: 10
+        		voteCount: 10
         	}
         ],
       },
@@ -62,11 +62,11 @@ export const getVoteList = () => {
         voteOptions: [
         	{
         		desc: 'desc',
-        		vote: 5
+        		voteCount: 5
         	},
         	{
         		desc: 'desc2',
-        		vote: 10
+        		voteCount: 10
         	}
         ],
       },

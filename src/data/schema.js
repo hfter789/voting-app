@@ -53,6 +53,16 @@ const voteType = new GraphQLObjectType({
   })
 });
 
+const voteListType = new GraphQLObjectType({
+  name: 'VoteList',
+  description: 'list of vote topics, vote options, and count',
+  fields: () => ({
+    voteList: {
+      type: new GraphQLList(voteType),
+    }
+  })
+});
+
 /**
  * This is the type that will be the root of our query,
  * and the entry point into our schema.
@@ -61,7 +71,7 @@ const queryType = new GraphQLObjectType({
   name: 'Query',
   fields: () => ({
     voteList: {
-      type: new GraphQLList(voteType),
+      type: voteListType,
       resolve: () => getVoteList(),
     },
   }),

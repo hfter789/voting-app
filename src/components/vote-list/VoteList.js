@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import Relay from 'react-relay';
 import { List, ListItem } from 'material-ui/List';
 import { Link } from 'react-router';
 
-class Home extends Component {
+class VoteList extends Component {
   render() {
     const voteList = [
       {
@@ -50,4 +51,16 @@ class Home extends Component {
   }
 }
 
-export default Home;
+const VoteListContainer = Relay.createContainer(VoteList, {
+  fragments: {
+    voteList: () => Relay.QL`
+      fragment on VoteList {
+        voteList {
+          topic
+        }
+      }
+    `
+  }
+});
+
+export default VoteListContainer;
