@@ -44,6 +44,9 @@ const voteType = new GraphQLObjectType({
   name: 'VoteInfo',
   description: 'vote summary about how many votes each options get',
   fields: () => ({
+    voteId: {
+      type: GraphQLString
+    },
     topic: {
       type: GraphQLString
     },

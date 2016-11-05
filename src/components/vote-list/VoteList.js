@@ -5,28 +5,6 @@ import { Link } from 'react-router';
 
 class VoteList extends Component {
   render() {
-    const voteList = [
-      {
-        id: 1,
-        topic: 'Inbox',
-      },
-      {
-        id: 2,
-        topic: 'Starred',
-      },
-      {
-        id: 3,
-        topic: 'Sent mail',
-      },
-      {
-        id: 4,
-        topic: 'Drafts',
-      },
-      {
-        id: 5,
-        topic: 'Inbox'
-      },
-    ];
     return (
       <div
         style={{maxWidth: '650px', margin: '0 auto'}}
@@ -37,9 +15,9 @@ class VoteList extends Component {
         <hr/  >
         <List>
           { 
-            voteList.map((voteTopicObj) => {
+            this.props.voteList.voteList.map((voteTopicObj) => {
               return (
-                <Link to={`/vote/${voteTopicObj.id}`}>
+                <Link to={`/vote/${voteTopicObj.voteId}`} key={voteTopicObj.voteId}>
                   <ListItem primaryText={voteTopicObj.topic} />
                 </Link>
               );
@@ -56,6 +34,7 @@ const VoteListContainer = Relay.createContainer(VoteList, {
     voteList: () => Relay.QL`
       fragment on VoteList {
         voteList {
+          voteId
           topic
         }
       }
