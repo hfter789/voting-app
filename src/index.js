@@ -15,6 +15,10 @@ const voteListQuery = {
   voteList: () => Relay.QL`query { voteList }`
 };
 
+const voteItemQuery = {
+  voteInfo: () => Relay.QL`query { vote(id: $voteId) }`
+};
+
 ReactDOM.render(
   <Router
     history={browserHistory}
@@ -23,7 +27,10 @@ ReactDOM.render(
   >
     <Route path='/' component={App}>
       <IndexRoute component={VoteList} queries={voteListQuery}/>
-      <Route path='/vote/:voteId' component={VoteInfo} />
+      <Route
+        path='/vote/:voteId'
+        component={VoteInfo}
+        queries={voteItemQuery}/>
       <Route path='*' component={NoMatch}/>
     </Route>
   </Router>,

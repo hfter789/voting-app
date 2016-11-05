@@ -20,7 +20,8 @@ import {
 } from 'graphql';
 
 import {
-  getVoteList
+  getVoteList,
+  getVoteById,
 } from './database';
 
 /**
@@ -77,6 +78,20 @@ const queryType = new GraphQLObjectType({
       type: voteListType,
       resolve: () => getVoteList(),
     },
+    vote: {
+      type: voteType,
+      args: {
+        id: {
+          type: GraphQLInt
+        }
+      },
+      resolve: (src, args) => {
+        if (args.id) {
+          return getVoteById(args.id)
+        }
+        return null;
+      }
+    }
   }),
 });
 
