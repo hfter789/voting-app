@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 import Relay from 'react-relay';
+import VoteSection from '../VoteSection';
+import VoteChart from '../VoteChart';
 
 class VoteInfo extends Component {
   render() {
     const { voteInfo } = this.props;
     return (
       <div>
-        <h2> {voteInfo.topic} </h2>
-        {
-          voteInfo.voteOptions.map((voteOption) => {
-            return <div>{voteOption.desc}:{voteOption.voteCount}</div>
-          })
-        }
+        <VoteSection voteInfo={voteInfo} />
+        <VoteChart voteOptions={voteInfo.voteOptions} />
       </div>
     );
   }
