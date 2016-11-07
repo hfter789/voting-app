@@ -7,7 +7,7 @@ class VoteSection extends Component {
       width: "40%",
       textAlign: "center",
       display: "inline-block",
-      verticalAlign: 'middle',
+      verticalAlign: 'top',
     };
     return (
       <div style={containerStyle}>
