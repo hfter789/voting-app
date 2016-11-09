@@ -20,8 +20,13 @@ import {
 } from 'graphql';
 
 import {
+  mutationWithClientMutationId,
+} from 'graphql-relay';
+
+import {
   getVoteList,
   getVoteById,
+  getVoteOption
 } from './database';
 
 /**
@@ -67,6 +72,31 @@ const voteListType = new GraphQLObjectType({
   })
 });
 
+const VoteMutation = mutationWithClientMutationId({
+  name: 'Vote',
+  inputFields: {
+    voteId: { type: GraphQLInt },
+    voteOptionIndex: { type: GraphQLInt },
+  },
+  outputFields: {
+    voteOption: {
+      type: voteOptionType,
+      resolve: ({voteId, voteOptionIndex}) => getVoteOption(voteId, voteOptionIndex),
+    },
+  },
+  mutateAndGetPayload: ({voteId, voteOptionIndex}) => {
+    voteForOption(voteId, voteOptionIndex);
+    return {voteId, voteOptionIndex};
+  },
+});
+
+const mutationType = new GraphQLObjectType({
+  name: 'Mutation',
+  fields: () => ({
+    vote: VoteMutation,
+  }),
+});
+
 /**
  * This is the type that will be the root of our query,
  * and the entry point into our schema.
@@ -100,5 +130,6 @@ const queryType = new GraphQLObjectType({
  * type we defined above) and export it.
  */
 export const Schema = new GraphQLSchema({
-  query: queryType
+  query: queryType,
+  mutation: mutationType,
 });

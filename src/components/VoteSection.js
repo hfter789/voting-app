@@ -1,22 +1,49 @@
 import React, { Component } from 'react';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
+import RaisedButton from 'material-ui/RaisedButton';
 
 class VoteSection extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: null
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(e, index, value) {
+    this.setState({
+      value: value
+    });
+  }
+
   render() {
     const { voteInfo } = this.props;
     const containerStyle = {
-      width: "40%",
-      textAlign: "center",
-      display: "inline-block",
+      width: '40%',
+      textAlign: 'left',
+      display: 'inline-block',
       verticalAlign: 'top',
+      padding: '70px 0 0 200px',
+      boxSizing: 'border-box',
     };
     return (
       <div style={containerStyle}>
-        <h2> {voteInfo.topic} </h2>
-        {
-          voteInfo.voteOptions.map((voteOption, index) => {
-            return <div key={index}>{voteOption.desc}:{voteOption.voteCount}</div>
-          })
-        }
+        <h2 style={{margin: 0}}> {voteInfo.topic} </h2>
+        <SelectField
+          floatingLabelText="I'm voting for"
+          value={this.state.value}
+          onChange={this.handleChange}
+        >
+          {
+            voteInfo.voteOptions.map((voteOption, index) => {
+              return <MenuItem value={index} primaryText={voteOption.desc} key={index} />
+            })
+          }
+        </SelectField>
+        <br />
+        <RaisedButton label='Submit' primary={true} style={{marginTop: '20px'}}/>
       </div>
     );
   }

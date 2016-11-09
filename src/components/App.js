@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import Header from '../header/Header';
+import Header from './Header';
 import Paper from 'material-ui/Paper';
 
 class App extends Component {

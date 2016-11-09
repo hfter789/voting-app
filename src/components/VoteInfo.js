@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Relay from 'react-relay';
-import VoteSection from '../VoteSection';
-import VoteChart from '../VoteChart';
+import VoteSection from './VoteSection';
+import VoteChart from './VoteChart';
 
 class VoteInfo extends Component {
   render() {
