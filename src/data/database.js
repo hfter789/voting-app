@@ -87,10 +87,9 @@ export const getVoteById = (id) => {
   return {};
 };
 
-export const getVoteOption = (voteId, voteOptionIndex) => {
+export const voteForOption = (voteId, voteOptionIndex) => {
   const voteItem = getVoteById(voteId);
   if(voteItem.voteOptions) {
-    return voteItem.voteOptions[voteOptionIndex];
+    voteItem.voteOptions[voteOptionIndex].voteCount++;
   }
-  return {};
 };

@@ -10,12 +10,17 @@ class VoteSection extends Component {
       value: null
     };
     this.handleChange = this.handleChange.bind(this);
+    this.onVote = this.onVote.bind(this);
   }
 
   handleChange(e, index, value) {
     this.setState({
       value: value
     });
+  }
+
+  onVote() {
+    this.props.handleVote(this.props.voteInfo, this.state.value);
   }
 
   render() {
@@ -43,7 +48,12 @@ class VoteSection extends Component {
           }
         </SelectField>
         <br />
-        <RaisedButton label='Submit' primary={true} style={{marginTop: '20px'}}/>
+        <RaisedButton
+          label='Submit'
+          primary={true}
+          style={{marginTop: '20px'}}
+          onClick={this.onVote}
+        />
       </div>
     );
   }

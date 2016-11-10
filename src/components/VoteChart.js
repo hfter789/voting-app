@@ -25,6 +25,7 @@ class VoteChart extends Component {
                   listStyle: 'none',
                   display: 'inline-block',
                 }}
+                key={index}
               >
                 <div
                   style={{
@@ -74,8 +75,8 @@ class VoteChart extends Component {
                   fillColor = getRandomColor();
                 }
                 return (
-                  <g>
-                    <path key={index} d={arc(arcData)} fill={fillColor}/>
+                  <g key={index}>
+                    <path d={arc(arcData)} fill={fillColor}/>
                   </g>
                 );
               })

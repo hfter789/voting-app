@@ -4,10 +4,10 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import { Router, Route, IndexRoute, browserHistory, applyRouterMiddleware } from 'react-router'
 import useRelay from 'react-router-relay';
 import Relay from 'react-relay';
-import App from './components/app/App';
-import VoteList from './components/vote-list/VoteList';
-import NoMatch from './components/no-match/NoMatch';
-import VoteInfo from './components/vote-info/VoteInfo';
+import App from './components/App';
+import VoteList from './components/VoteList';
+import NoMatch from './components/NoMatch';
+import VoteInfo from './components/VoteInfo';
 import './index.css';
 injectTapEventPlugin();
 

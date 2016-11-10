@@ -26,7 +26,7 @@ import {
 import {
   getVoteList,
   getVoteById,
-  getVoteOption
+  voteForOption
 } from './database';
 
 /**
@@ -72,16 +72,16 @@ const voteListType = new GraphQLObjectType({
   })
 });
 
-const VoteMutation = mutationWithClientMutationId({
-  name: 'Vote',
+const VoteForOptionMutation = mutationWithClientMutationId({
+  name: 'voteForOption',
   inputFields: {
     voteId: { type: GraphQLInt },
     voteOptionIndex: { type: GraphQLInt },
   },
   outputFields: {
-    voteOption: {
-      type: voteOptionType,
-      resolve: ({voteId, voteOptionIndex}) => getVoteOption(voteId, voteOptionIndex),
+    voteInfo: {
+      type: voteType,
+      resolve: ({voteId}) => getVoteById(voteId),
     },
   },
   mutateAndGetPayload: ({voteId, voteOptionIndex}) => {
@@ -93,7 +93,7 @@ const VoteMutation = mutationWithClientMutationId({
 const mutationType = new GraphQLObjectType({
   name: 'Mutation',
   fields: () => ({
-    vote: VoteMutation,
+    voteForOption: VoteForOptionMutation,
   }),
 });
 
