@@ -50,8 +50,8 @@ const voteType = new GraphQLObjectType({
   name: 'VoteInfo',
   description: 'vote summary about how many votes each options get',
   fields: () => ({
-    voteId: {
-      type: GraphQLString
+    id: {
+      type: new GraphQLNonNull(GraphQLID)
     },
     topic: {
       type: GraphQLString
@@ -75,18 +75,18 @@ const voteListType = new GraphQLObjectType({
 const VoteForOptionMutation = mutationWithClientMutationId({
   name: 'voteForOption',
   inputFields: {
-    voteId: { type: GraphQLInt },
+    id: { type: GraphQLInt },
     voteOptionIndex: { type: GraphQLInt },
   },
   outputFields: {
     voteInfo: {
       type: voteType,
-      resolve: ({voteId}) => getVoteById(voteId),
+      resolve: ({id}) => getVoteById(id),
     },
   },
-  mutateAndGetPayload: ({voteId, voteOptionIndex}) => {
-    voteForOption(voteId, voteOptionIndex);
-    return {voteId, voteOptionIndex};
+  mutateAndGetPayload: ({id, voteOptionIndex}) => {
+    voteForOption(id, voteOptionIndex);
+    return {id, voteOptionIndex};
   },
 });
 
@@ -112,7 +112,7 @@ const queryType = new GraphQLObjectType({
       type: voteType,
       args: {
         id: {
-          type: GraphQLInt
+          type: new GraphQLNonNull(GraphQLID)
         }
       },
       resolve: (src, args) => {

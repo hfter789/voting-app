@@ -1,6 +1,6 @@
 let voteList = [
   {
-    voteId: 1,
+    id: 1,
     topic: 'Inbox',
     voteOptions: [
       {
@@ -14,7 +14,7 @@ let voteList = [
     ],
   },
   {
-    voteId: 2,
+    id: 2,
     topic: 'Starred',
     voteOptions: [
       {
@@ -28,7 +28,7 @@ let voteList = [
     ],
   },
   {
-    voteId: 3,
+    id: 3,
     topic: 'Sent mail',
     voteOptions: [
       {
@@ -42,7 +42,7 @@ let voteList = [
     ],
   },
   {
-    voteId: 4,
+    id: 4,
     topic: 'Drafts',
     voteOptions: [
       {
@@ -56,7 +56,7 @@ let voteList = [
     ],
   },
   {
-    voteId: 5,
+    id: 5,
     topic: 'Inbox',
     voteOptions: [
       {
@@ -79,7 +79,7 @@ export const getVoteList = () => {
 
 export const getVoteById = (id) => {
   const result = voteList.filter((vote) => {
-    return vote.voteId === id;
+    return vote.id === +id;
   });
   if (result.length) {
     return result[0];
@@ -87,8 +87,8 @@ export const getVoteById = (id) => {
   return {};
 };
 
-export const voteForOption = (voteId, voteOptionIndex) => {
-  const voteItem = getVoteById(voteId);
+export const voteForOption = (id, voteOptionIndex) => {
+  const voteItem = getVoteById(id);
   if(voteItem.voteOptions) {
     voteItem.voteOptions[voteOptionIndex].voteCount++;
   }

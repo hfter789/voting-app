@@ -11,12 +11,18 @@ class VoteInfo extends Component {
     this.handleVote = this.handleVote.bind(this);
   }
 
-  handleVote(voteId, optionIndex) {
+  handleVote(id, optionIndex) {
     this.props.relay.commitUpdate(
       new VoteForOptionMutation({
         voteInfo: this.props.voteInfo,
         optionIndex,
-      })
+      }),
+      {
+        onSuccess: () => {
+          debugger;
+          console.log(this.props);
+        }
+      }
     );
   }
 
@@ -35,7 +41,7 @@ const VoteInfoContainer = Relay.createContainer(VoteInfo, {
   fragments: {
     voteInfo: () => Relay.QL`
       fragment on VoteInfo {
-        voteId
+        id
         topic
         voteOptions {
           desc

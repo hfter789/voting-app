@@ -17,7 +17,7 @@ class VoteList extends Component {
           { 
             this.props.voteList.voteList.map((voteTopicObj) => {
               return (
-                <Link to={`/vote/${voteTopicObj.voteId}`} key={voteTopicObj.voteId}>
+                <Link to={`/vote/${voteTopicObj.id}`} key={voteTopicObj.id}>
                   <ListItem primaryText={voteTopicObj.topic} />
                 </Link>
               );
@@ -34,7 +34,7 @@ const VoteListContainer = Relay.createContainer(VoteList, {
     voteList: () => Relay.QL`
       fragment on VoteList {
         voteList {
-          voteId
+          id
           topic
         }
       }

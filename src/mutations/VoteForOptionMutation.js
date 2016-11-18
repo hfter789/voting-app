@@ -4,7 +4,7 @@ export default class VoteForOptionMutation extends Relay.Mutation {
   static fragments = {
     voteInfo: () => Relay.QL`
       fragment on VoteInfo {
-        voteId,
+        id,
       }
     `,
   };
@@ -12,14 +12,14 @@ export default class VoteForOptionMutation extends Relay.Mutation {
     return Relay.QL`mutation{voteForOption}`;
   }
   getCollisionKey() {
-    return `check_${this.props.voteInfo.voteId}`;
+    return `check_${this.props.voteInfo.id}`;
   }
   getFatQuery() {
     // from output fields by schema
     return Relay.QL`
       fragment on voteForOptionPayload {
         voteInfo {
-          voteId,
+          id,
           topic,
           voteOptions,
         },
@@ -30,13 +30,13 @@ export default class VoteForOptionMutation extends Relay.Mutation {
     return [{
       type: 'FIELDS_CHANGE',
       fieldIDs: {
-        voteInfo: this.props.voteInfo.voteId,
+        voteInfo: this.props.voteInfo.id,
       },
     }];
   }
   getVariables() {
     return {
-      voteId: this.props.voteInfo.voteId,
+      id: this.props.voteInfo.id,
       voteOptionIndex: this.props.optionIndex
     };
   }
