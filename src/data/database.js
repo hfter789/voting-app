@@ -12,6 +12,7 @@ let voteList = [
         voteCount: 10
       }
     ],
+    voteHistory: {},
   },
   {
     id: 2,
@@ -26,6 +27,7 @@ let voteList = [
         voteCount: 10
       }
     ],
+    voteHistory: {},
   },
   {
     id: 3,
@@ -40,6 +42,7 @@ let voteList = [
         voteCount: 10
       }
     ],
+    voteHistory: {},
   },
   {
     id: 4,
@@ -54,6 +57,7 @@ let voteList = [
         voteCount: 10
       }
     ],
+    voteHistory: {},
   },
   {
     id: 5,
@@ -68,6 +72,7 @@ let voteList = [
         voteCount: 10
       }
     ],
+    voteHistory: {},
   },
 ];
 
