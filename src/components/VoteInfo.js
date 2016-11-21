@@ -16,13 +16,7 @@ class VoteInfo extends Component {
       new VoteForOptionMutation({
         voteInfo: this.props.voteInfo,
         optionIndex,
-      }),
-      {
-        onSuccess: () => {
-          debugger;
-          console.log(this.props);
-        }
-      }
+      })
     );
   }
 

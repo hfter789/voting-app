@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import axios from 'axios';
+import get from 'lodash/get';
 import Header from './Header';
 import Paper from 'material-ui/Paper';
 
@@ -10,10 +12,27 @@ class App extends Component {
     this.setLoginUser = this.setLoginUser.bind(this);
   }
 
+  componentDidMount() {
+    this.getIp();
+  }
+
   setLoginUser(userID) {
     this.setState({
       userID: userID
     });
+  }
+
+  getIp() {
+    const self = this;
+    axios.get('http://jsonip.com')
+      .then(function (response) {
+        self.setState({
+          clientIp: get(response, 'data.ip'),
+        })
+      })
+      .catch(function (error) {
+        throw error;
+      });
   }
 
   render() {

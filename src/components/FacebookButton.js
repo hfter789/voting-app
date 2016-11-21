@@ -15,8 +15,6 @@ class FacebookBtn extends Component {
   }
 
   onStatusChange(response) {
-    debugger;
-    console.log( response );
     if( response.status === "connected" ) {
       this.props.setLoginUser(response.authResponse.userID);
     }
