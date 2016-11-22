@@ -77,16 +77,21 @@ const VoteForOptionMutation = mutationWithClientMutationId({
   inputFields: {
     id: { type: GraphQLInt },
     voteOptionIndex: { type: GraphQLInt },
+    userId: { type: GraphQLString }
   },
   outputFields: {
     voteInfo: {
       type: voteType,
       resolve: ({id}) => getVoteById(id),
     },
+    error: {
+      type: GraphQLString,
+      resolve: ({id, result}) => result,
+    },
   },
-  mutateAndGetPayload: ({id, voteOptionIndex}) => {
-    voteForOption(id, voteOptionIndex);
-    return {id, voteOptionIndex};
+  mutateAndGetPayload: ({id, voteOptionIndex, userId}) => {
+    const result = voteForOption(id, voteOptionIndex, userId);
+    return {id, result};
   },
 });
 

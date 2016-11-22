@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Relay from 'react-relay';
+import get from 'lodash/get';
 import VoteForOptionMutation from '../mutations/VoteForOptionMutation';
 import VoteSection from './VoteSection';
 import VoteChart from './VoteChart';
@@ -9,22 +10,36 @@ class VoteInfo extends Component {
   constructor(props) {
     super(props);
     this.handleVote = this.handleVote.bind(this);
+    this.state = {};
   }
 
   handleVote(id, optionIndex) {
-    this.props.relay.commitUpdate(
+    const self = this;
+    self.setState({
+      errorMessage: '',
+    })
+    self.props.relay.commitUpdate(
       new VoteForOptionMutation({
-        voteInfo: this.props.voteInfo,
+        voteInfo: self.props.voteInfo,
         optionIndex,
+        userID: self.props.userID,
       })
-    );
+    , {
+      onFailure: (transaction) => {
+        const errorMessage = get(transaction.getError(), 'source.errors.0.message');
+        self.setState({
+          errorMessage,
+        })
+      }
+    });
   }
 
   render() {
     const { voteInfo } = this.props;
+    const { errorMessage } = this.state;
     return (
       <div>
-        <VoteSection handleVote={this.handleVote} voteInfo={voteInfo} />
+        <VoteSection handleVote={this.handleVote} voteInfo={voteInfo} errorMessage={errorMessage} />
         <VoteChart voteOptions={voteInfo.voteOptions} />
       </div>
     );

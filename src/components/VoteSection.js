@@ -24,7 +24,7 @@ class VoteSection extends Component {
   }
 
   render() {
-    const { voteInfo } = this.props;
+    const { voteInfo, errorMessage } = this.props;
     const containerStyle = {
       width: '40%',
       textAlign: 'left',
@@ -33,6 +33,7 @@ class VoteSection extends Component {
       padding: '70px 0 0 200px',
       boxSizing: 'border-box',
     };
+
     return (
       <div style={containerStyle}>
         <h2 style={{margin: 0}}> {voteInfo.topic} </h2>
@@ -48,6 +49,7 @@ class VoteSection extends Component {
           }
         </SelectField>
         <br />
+        <div style={{color: '#F44336'}}>{errorMessage}</div>
         <RaisedButton
           label='Submit'
           primary={true}

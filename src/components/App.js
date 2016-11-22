@@ -36,6 +36,7 @@ class App extends Component {
   }
 
   render() {
+    const { userID, clientIp } = this.state;
     return (
         <MuiThemeProvider>
           <div>
@@ -44,7 +45,9 @@ class App extends Component {
                 zDepth={2}
                 style={{padding: '20px', textAlign: 'center', margin: '50px'}}
               >
-                {this.props.children}
+                {this.props.children && React.cloneElement(this.props.children, {
+                  userID: userID || clientIp,
+                })}
               </Paper>
            </div>
         </MuiThemeProvider>

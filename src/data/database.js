@@ -92,9 +92,16 @@ export const getVoteById = (id) => {
   return {};
 };
 
-export const voteForOption = (id, voteOptionIndex) => {
+export const voteForOption = (id, voteOptionIndex, userId) => {
   const voteItem = getVoteById(id);
   if(voteItem.voteOptions) {
-    voteItem.voteOptions[voteOptionIndex].voteCount++;
+    if(userId in voteItem.voteHistory) {
+      throw 'Same user/ip cannot vote twice';
+    } else {
+      voteItem.voteOptions[voteOptionIndex].voteCount++;
+      voteItem.voteHistory[userId] = voteOptionIndex;
+      return null;
+    }
   }
+  throw 'Vote Item not found';
 };
