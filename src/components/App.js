@@ -16,9 +16,10 @@ class App extends Component {
     this.getIp();
   }
 
-  setLoginUser(userID) {
+  setLoginUser(userObject) {
     this.setState({
-      userID: userID
+      userID: userObject.userID,
+      fullName: userObject.fullName,
     });
   }
 

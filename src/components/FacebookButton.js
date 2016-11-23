@@ -4,31 +4,51 @@ class FacebookBtn extends Component {
   constructor(props) {
     super(props);
 
-    this.FB = props.fb;
+    this.FB = this.props.fb;
+    this.state = {};
   }
 
   componentDidMount() {
-    // this.FB.Event.subscribe('auth.logout', 
-    //    this.onLogout.bind(this));
-    this.FB.Event.subscribe('auth.statusChange', 
-       this.onStatusChange.bind(this));
+    const self = this;
+    self.FB.Event.subscribe('auth.statusChange',
+      self.onStatusChange.bind(this));
+    self.FB.getLoginStatus();
   }
 
   onStatusChange(response) {
+    const self = this;
     if( response.status === "connected" ) {
-      this.props.setLoginUser(response.authResponse.userID);
+      const userID = response.authResponse.userID;
+      self.props.fb.api(
+        `${userID}`,
+        function (response) {
+          if (response && !response.error) {
+            self.props.setLoginUser({
+              userID: userID,
+              fullName: response.name,
+            });
+            self.setState({
+              fullName: response.name,
+            });
+          }
+        }
+      );
     }
   }
 
   render() {
+    const { fullName } = this.state;
     return (
-      <div 
-        className="fb-login-button" 
-        data-max-rows="1" 
-        data-size="large" 
-        data-show-faces="false" 
-        data-auto-logout-link="true"
-      />
+      <div>
+        { fullName }
+        <div 
+          className="fb-login-button" 
+          data-max-rows="1" 
+          data-size="large" 
+          data-show-faces="false" 
+          data-auto-logout-link="true"
+        />
+      </div>
     );
  }
 }
