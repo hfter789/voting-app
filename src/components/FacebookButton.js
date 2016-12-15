@@ -1,40 +1,6 @@
 import React, { Component } from 'react';
 
 class FacebookBtn extends Component {
-  constructor(props) {
-    super(props);
-
-    this.FB = this.props.fb;
-    this.state = {};
-  }
-
-  componentDidMount() {
-    const self = this;
-    self.FB.Event.subscribe('auth.statusChange',
-      self.onStatusChange.bind(this));
-    self.FB.getLoginStatus();
-  }
-
-  onStatusChange(response) {
-    const self = this;
-    if( response.status === "connected" ) {
-      const userID = response.authResponse.userID;
-      self.props.fb.api(
-        `${userID}`,
-        function (response) {
-          if (response && !response.error) {
-            self.props.setLoginUser({
-              userID: userID,
-              fullName: response.name,
-            });
-            self.setState({
-              fullName: response.name,
-            });
-          }
-        }
-      );
-    }
-  }
 
   render() {
     const { fullName } = this.state;

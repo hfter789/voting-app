@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import { Router, Route, IndexRoute, browserHistory, applyRouterMiddleware } from 'react-router'
+import { Router, Route, IndexRoute, browserHistory, applyRouterMiddleware } from 'react-router';
 import useRelay from 'react-router-relay';
 import Relay from 'react-relay';
 import App from './components/App';
