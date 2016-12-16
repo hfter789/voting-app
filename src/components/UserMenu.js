@@ -55,7 +55,7 @@ export class UserMenu extends Component {
 
   logout() {
     const self = this;
-    FB.logout(function(response) {
+    FB.api('/me/permissions', 'delete', function(response) {
       self.props.setLoginUser({
         userID: null,
         fullName: null,
