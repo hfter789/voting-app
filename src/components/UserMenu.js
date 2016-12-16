@@ -1,7 +1,6 @@
 /* global FB*/
 
 import React, { Component } from 'react';
-import FacebookButton from './FacebookButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
@@ -12,6 +11,9 @@ export class UserMenu extends Component {
     super(props);
 
     this.state = {};
+    this.logout = this.logout.bind(this);
+    this.login = this.login.bind(this);
+    this.handleMyInfo = this.handleMyInfo.bind(this);
   }
 
   componentDidMount() {
@@ -24,29 +26,47 @@ export class UserMenu extends Component {
     }
   }
 
-  onStatusChange(response) {
-    const self = this;
-    if( response.status === 'connected' ) {
-      const userID = response.authResponse.userID;
-      FB.api(
-        `${userID}`,
-        function (response) {
-          if (response && !response.error) {
-            self.props.setLoginUser({
-              userID: userID,
-              fullName: response.name,
-            });
-            self.setState({
-              fullName: response.name,
-            });
-          }
-        }
-      );
+  handleMyInfo(response) {
+    debugger;
+    if (response && !response.error) {
+      this.props.setLoginUser({
+        userID: response.id,
+        fullName: response.name,
+      });
+      this.setState({
+        fullName: response.name,
+      });
     }
   }
 
+  onStatusChange(response) {
+    if( response.status === 'connected' ) {
+      FB.api('/me', this.handleMyInfo);
+    }
+  }
+
+  login() {
+    FB.login(function(response) {
+      if (response.authResponse) {
+        FB.api('/me', this.handleMyInfo);
+      }
+    });
+  }
+
+  logout() {
+    const self = this;
+    FB.logout(function(response) {
+      self.props.setLoginUser({
+        userID: null,
+        fullName: null,
+      });
+      self.setState({
+        fullName: null,
+      });
+    });
+  }
+
   render() {
-    let fbBtn = null;
     const { fullName } = this.state;
     if (fullName) {
       return (
@@ -55,23 +75,27 @@ export class UserMenu extends Component {
             <div style={{margin: '-10px 0'}}>
               <div style={{
                 display: 'inline-block',
+                color: '#FFF',
                 padding: '12px 0',
                 verticalAlign: 'top',
                 height: '24px',
                 lineHeight: '24px',
               }}>{ fullName }</div>
-              <IconButton><MoreVertIcon /></IconButton>
+              <IconButton><MoreVertIcon color='#FFF' /></IconButton>
             </div>}
           anchorOrigin={{horizontal: 'right', vertical: 'top'}}
           targetOrigin={{horizontal: 'right', vertical: 'top'}}
           iconStyle={{color: '#fff'}}
         >
-          <MenuItem primaryText={fullName} />
+          <MenuItem primaryText='Log Out' onClick={this.logout} />
         </IconMenu>
       );
     }
     return (
-      <div>
+      <div
+        style={{ color: '#FFF', paddingTop: '5px', cursor: 'pointer' }}
+        onClick={this.login}
+      >
         Login Via FB
       </div>
     );
