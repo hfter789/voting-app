@@ -62,16 +62,6 @@ const voteType = new GraphQLObjectType({
   })
 });
 
-const voteListType = new GraphQLObjectType({
-  name: 'VoteList',
-  description: 'list of vote topics, vote options, and count',
-  fields: () => ({
-    voteList: {
-      type: new GraphQLList(voteType),
-    }
-  })
-});
-
 const VoteForOptionMutation = mutationWithClientMutationId({
   name: 'voteForOption',
   inputFields: {
@@ -109,20 +99,27 @@ const mutationType = new GraphQLObjectType({
 const queryType = new GraphQLObjectType({
   name: 'Query',
   fields: () => ({
-    voteList: {
-      type: voteListType,
-      resolve: () => getVoteList(),
-    },
     vote: {
-      type: voteType,
+      type: new GraphQLList(voteType),
       args: {
         id: {
-          type: new GraphQLNonNull(GraphQLID)
+          type: GraphQLID
         }
       },
       resolve: (src, args) => {
-        if (args.id) {
-          return getVoteById(args.id)
+        return getVoteById(args.id)
+      }
+    },
+    userVote: {
+      type: new GraphQLList(voteType),
+      args: {
+        userId: {
+          type: GraphQLString
+        }
+      },
+      resolve: (src, args) => {
+        if (args.userId) {
+          return getVoteHistory(args.userId)
         }
         return null;
       }

@@ -12,11 +12,7 @@ import './index.css';
 injectTapEventPlugin();
 
 const voteListQuery = {
-  voteList: () => Relay.QL`query { voteList }`
-};
-
-const voteItemQuery = {
-  voteInfo: () => Relay.QL`query { vote(id: $id) }`
+  voteList: () => Relay.QL`query { vote(id: $id) }`
 };
 
 ReactDOM.render(
@@ -30,7 +26,7 @@ ReactDOM.render(
       <Route
         path='/vote/:id'
         component={VoteInfo}
-        queries={voteItemQuery}/>
+        queries={voteListQuery}/>
       <Route path='*' component={NoMatch}/>
     </Route>
   </Router>,

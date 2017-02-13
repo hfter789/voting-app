@@ -76,20 +76,19 @@ let voteList = [
   },
 ];
 
-export const getVoteList = () => {
-  return {
-    voteList: voteList
-  };
-};
-
 export const getVoteById = (id) => {
+  if (!id) {
+    return voteList;
+  }
   const result = voteList.filter((vote) => {
     return vote.id === +id;
   });
-  if (result.length) {
-    return result[0];
-  }
-  return {};
+
+  return result;
+};
+
+export const getVoteHistory = (user) => {
+  return voteList.filter((vote) => userId in voteItem.voteHistory);
 };
 
 export const voteForOption = (id, voteOptionIndex, userId) => {
