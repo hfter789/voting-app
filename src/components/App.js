@@ -32,7 +32,7 @@ class App extends Component {
         })
       })
       .catch(function (error) {
-        throw error;
+        console.log(error);
       });
   }
 

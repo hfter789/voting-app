@@ -96,6 +96,7 @@ const mutationType = new GraphQLObjectType({
  * This is the type that will be the root of our query,
  * and the entry point into our schema.
  */
+
 const queryType = new GraphQLObjectType({
   name: 'Query',
   fields: () => ({

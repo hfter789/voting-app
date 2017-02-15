@@ -27,7 +27,6 @@ export class UserMenu extends Component {
   }
 
   handleMyInfo(response) {
-    debugger;
     if (response && !response.error) {
       this.props.setLoginUser({
         userID: response.id,
