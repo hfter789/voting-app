@@ -48,15 +48,17 @@ class VoteInfo extends Component {
 
 const VoteInfoContainer = Relay.createContainer(VoteInfo, {
   fragments: {
-    voteInfo: () => Relay.QL`
-      fragment on VoteInfo {
-        id
-        topic
-        voteOptions {
-          desc
-          voteCount
+    root: () => Relay.QL`
+      fragment on VoteRoot {
+        vote @relay(plural: true) {
+          id
+          topic
+          voteOptions {
+            desc
+            voteCount
+          }
+          ${VoteForOptionMutation.getFragment('voteInfo')},
         }
-        ${VoteForOptionMutation.getFragment('voteInfo')},
       }
     `
   }

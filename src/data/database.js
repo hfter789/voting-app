@@ -27,7 +27,9 @@ let voteList = [
         voteCount: 10
       }
     ],
-    voteHistory: {},
+    voteHistory: {
+      test: 0
+    },
   },
   {
     id: 3,
@@ -87,8 +89,8 @@ export const getVoteById = (id) => {
   return result;
 };
 
-export const getVoteHistory = (user) => {
-  return voteList.filter((vote) => userId in voteItem.voteHistory);
+export const getVoteHistory = (userId) => {
+  return voteList.filter((voteItem) => userId in voteItem.voteHistory);
 };
 
 export const voteForOption = (id, voteOptionIndex, userId) => {

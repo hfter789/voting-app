@@ -26,12 +26,14 @@ import {
 import {
   getVoteList,
   getVoteById,
-  voteForOption
+  voteForOption,
+  getVoteHistory,
 } from './database';
 
 /**
  * Define your own types here
  */
+
 
 const voteOptionType = new GraphQLObjectType({
   name: 'VoteOption',
@@ -60,6 +62,38 @@ const voteType = new GraphQLObjectType({
       type: new GraphQLList(voteOptionType),
     }
   })
+});
+
+const VoteRoot = new GraphQLObjectType({
+  name: 'VoteRoot',
+  description: 'root of the query',
+  fields: () => ({
+    vote: {
+      type: new GraphQLList(voteType),
+      args: {
+        id: {
+          type: GraphQLID
+        }
+      },
+      resolve: (src, args) => {
+        return getVoteById(args.id)
+      }
+    },
+    userVote: {
+      type: new GraphQLList(voteType),
+      args: {
+        userId: {
+          type: GraphQLString
+        }
+      },
+      resolve: (src, args) => {
+        if (args.userId) {
+          return getVoteHistory(args.userId)
+        }
+        return null;
+      }
+    }
+  }),
 });
 
 const VoteForOptionMutation = mutationWithClientMutationId({
@@ -100,30 +134,9 @@ const mutationType = new GraphQLObjectType({
 const queryType = new GraphQLObjectType({
   name: 'Query',
   fields: () => ({
-    vote: {
-      type: new GraphQLList(voteType),
-      args: {
-        id: {
-          type: GraphQLID
-        }
-      },
-      resolve: (src, args) => {
-        return getVoteById(args.id)
-      }
-    },
-    userVote: {
-      type: new GraphQLList(voteType),
-      args: {
-        userId: {
-          type: GraphQLString
-        }
-      },
-      resolve: (src, args) => {
-        if (args.userId) {
-          return getVoteHistory(args.userId)
-        }
-        return null;
-      }
+    root: {
+      type: VoteRoot,
+      resolve: () => ({})
     }
   }),
 });
