@@ -35,7 +35,7 @@ class VoteInfo extends Component {
   }
 
   render() {
-    const { voteInfo } = this.props;
+    const voteInfo = this.props.root.vote[0];
     const { errorMessage } = this.state;
     return (
       <div>
@@ -47,14 +47,18 @@ class VoteInfo extends Component {
 }
 
 const VoteInfoContainer = Relay.createContainer(VoteInfo, {
+  initialVariables: {
+    id: null
+  },
+
   fragments: {
     root: () => Relay.QL`
       fragment on VoteRoot {
-        vote @relay(plural: true) {
-          id
-          topic
+        vote(id: $id) {
+          id,
+          topic,
           voteOptions {
-            desc
+            desc,
             voteCount
           }
           ${VoteForOptionMutation.getFragment('voteInfo')},

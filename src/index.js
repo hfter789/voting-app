@@ -24,16 +24,16 @@ ReactDOM.render(
   >
     <Route path='/' component={App}>
       <IndexRedirect to='/votelists' />
-      <Route path='/votelists' component={VoteList} queries={voteListQuery} />
-      {
-        /*
-        <Route
-          path='/vote/:id'
-          component={VoteInfo}
-          queries={voteListQuery}
-        />
-        */
-      }
+      <Route path='/votelists'
+        component={VoteList}
+        queries={voteListQuery}
+        prepareParams={params => ({ ...params, id: null })}
+      />
+      <Route
+        path='/vote/:id'
+        component={VoteInfo}
+        queries={voteListQuery}
+      />
       <Route path='*' component={NoMatch} />
     </Route>
   </Router>,

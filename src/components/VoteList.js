@@ -31,10 +31,14 @@ class VoteList extends Component {
 }
 
 const VoteListContainer = Relay.createContainer(VoteList, {
+  initialVariables: {
+    id: null
+  },
+
   fragments: {
     root: () => Relay.QL`
       fragment on VoteRoot {
-        vote @relay(plural: true) {
+        vote(id: $id) @relay(plural: true) {
           id,
           topic
         }
