@@ -13,14 +13,14 @@ class VoteInfo extends Component {
     this.state = {};
   }
 
-  handleVote(id, optionIndex) {
+  handleVote(voteInfo, optionIndex) {
     const self = this;
     self.setState({
       errorMessage: '',
     })
     self.props.relay.commitUpdate(
       new VoteForOptionMutation({
-        voteInfo: self.props.voteInfo,
+        voteInfo,
         optionIndex,
         userID: self.props.userID,
       })

@@ -105,7 +105,7 @@ const VoteForOptionMutation = mutationWithClientMutationId({
   },
   outputFields: {
     voteInfo: {
-      type: voteType,
+      type: new GraphQLList(voteType),
       resolve: ({id}) => getVoteById(id),
     },
     error: {
