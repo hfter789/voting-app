@@ -56,13 +56,13 @@
     "express-graphql": "^0.5.4",
     "graphql": "^0.7.2",
     "graphql-relay": "^0.4.3",
-    "material-ui": "^0.16.1",
+    "material-ui": "^0.17.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-relay": "^0.9.3",
     "react-router": "^3.0.0",
     "react-router-relay": "^0.13.5",
-    "react-tap-event-plugin": "^1.0.0"
+    "react-tap-event-plugin": "^2.0.0"
   },
   "scripts": {
     "start": "NODE_ENV=development babel-node server.js",
