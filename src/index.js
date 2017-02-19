@@ -8,6 +8,7 @@ import App from './components/App';
 import VoteList from './components/VoteList';
 import NoMatch from './components/NoMatch';
 import VoteInfo from './components/VoteInfo';
+import VoteHistory from './components/VoteHistory';
 import './index.css';
 injectTapEventPlugin();
 
@@ -32,6 +33,11 @@ ReactDOM.render(
       <Route
         path='/vote/:id'
         component={VoteInfo}
+        queries={voteListQuery}
+      />
+      <Route
+        path='/votehistory'
+        component={VoteHistory}
         queries={voteListQuery}
       />
       <Route path='*' component={NoMatch} />

@@ -90,7 +90,9 @@ export const getVoteById = (id) => {
 };
 
 export const getVoteHistory = (userId) => {
-  return voteList.filter((voteItem) => userId in voteItem.voteHistory);
+  const result = voteList.filter((voteItem) => userId in voteItem.voteHistory);
+  console.log('returning this', userId, result);
+  return result;
 };
 
 export const voteForOption = (id, voteOptionIndex, userId) => {

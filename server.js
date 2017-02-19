@@ -1,3 +1,4 @@
+require('./server.babel');
 var express = require('express');
 var graphQLHTTP = require('express-graphql');
 var Schema = require('./src/data/schema').Schema;

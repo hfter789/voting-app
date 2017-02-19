@@ -44,7 +44,7 @@ class VoteSection extends Component {
         >
           {
             voteInfo.voteOptions.map((voteOption, index) => {
-              return <MenuItem value={index} primaryText={voteOption.desc} key={index} />
+              return <MenuItem value={index} primaryText={voteOption.desc} />
             })
           }
         </SelectField>

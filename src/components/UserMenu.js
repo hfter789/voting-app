@@ -5,6 +5,7 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import { browserHistory } from 'react-router';
 
 export class UserMenu extends Component {
   constructor(props) {
@@ -18,12 +19,12 @@ export class UserMenu extends Component {
 
   componentDidMount() {
     // TODO: if possible, make FB fully loaded before this is mounted
-    if (typeof(FB) !== 'undefined' && FB !== null ) {
-      const self = this;
-      FB.Event.subscribe('auth.statusChange',
-        self.onStatusChange.bind(this));
-      FB.getLoginStatus();
-    }
+    // if (typeof(FB) !== 'undefined' && FB !== null ) {
+    //   const self = this;
+    //   FB.Event.subscribe('auth.statusChange',
+    //     self.onStatusChange.bind(this));
+    //   FB.getLoginStatus();
+    // }
   }
 
   handleMyInfo(response) {
@@ -80,12 +81,15 @@ export class UserMenu extends Component {
                 height: '24px',
                 lineHeight: '24px',
               }}>{ fullName }</div>
-              <IconButton><MoreVertIcon color='#FFF' /></IconButton>
+              <IconButton>
+                <MoreVertIcon color='#FFF' />
+              </IconButton>
             </div>}
           anchorOrigin={{horizontal: 'right', vertical: 'top'}}
           targetOrigin={{horizontal: 'right', vertical: 'top'}}
           iconStyle={{color: '#fff'}}
         >
+          <MenuItem primaryText='My Votes' onClick={() => { browserHistory.push('/voteHistory') } } />
           <MenuItem primaryText='Log Out' onClick={this.logout} />
         </IconMenu>
       );

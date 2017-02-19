@@ -47,7 +47,7 @@ class App extends Component {
                 style={{padding: '20px', textAlign: 'center', margin: '50px'}}
               >
                 {this.props.children && React.cloneElement(this.props.children, {
-                  userID: userID || clientIp,
+                  userID: 'test' || userID || clientIp,
                 })}
               </Paper>
            </div>
