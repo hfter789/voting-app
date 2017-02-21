@@ -12,9 +12,11 @@ class VoteHistory extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { userId } = nextProps;
-    this.props.relay.setVariables(
-      userId,
-    );
+    if (userId !== this.props.userId) {
+      this.props.relay.setVariables(
+        userId,
+      );
+    }
   }
 
   render() {
