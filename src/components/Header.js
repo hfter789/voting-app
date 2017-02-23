@@ -10,7 +10,7 @@ class Header extends Component {
           title="Go Vote!"
           iconElementLeft={<div />}
           iconElementRight={<UserMenu setLoginUser={this.props.setLoginUser} />}
-          iconStyleRight={{margin: '20px 25px 0 auto'}}
+          iconStyleRight={{ width: '50%', margin: 0 }}
         />
       </div>
     );

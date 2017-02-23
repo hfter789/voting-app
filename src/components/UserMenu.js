@@ -4,7 +4,10 @@ import React, { Component } from 'react';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
+import {Tabs, Tab} from 'material-ui/Tabs';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import FontIcon from 'material-ui/FontIcon';
+import MapsPersonPin from 'material-ui/svg-icons/maps/person-pin';
 import { browserHistory } from 'react-router';
 
 export class UserMenu extends Component {
@@ -96,10 +99,34 @@ export class UserMenu extends Component {
     }
     return (
       <div
-        style={{ color: '#FFF', paddingTop: '5px', cursor: 'pointer' }}
-        onClick={this.login}
+        style={{
+          color: '#FFF',
+          textAlign: 'right',
+          paddingRight: 30
+        }}
       >
-        Login Via FB
+        <Tabs
+          style={{ paddingRight: 30, display: 'inline-block' }}
+        >
+          <Tab
+            style={{ width: 110, height: 64 }}
+            label="HOME"
+            onActive={ () => { browserHistory.push('/') } }
+          />
+          <Tab
+            style={{ width: 110, height: 64 }}
+            label="MY POLLS"
+            onActive={ () => { browserHistory.push('/mypolls') } }
+          />
+          <Tab
+            style={{ width: 110, height: 64 }}
+            label="NEW POLL"
+            onActive={ () => { browserHistory.push('/') } }
+          />
+        </Tabs>
+        <span onClick={this.login}>
+          Login Via FB
+        </span>
       </div>
     );
   }
