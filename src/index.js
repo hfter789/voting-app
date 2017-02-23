@@ -8,14 +8,13 @@ import App from './components/App';
 import VoteList from './components/VoteList';
 import NoMatch from './components/NoMatch';
 import VoteInfo from './components/VoteInfo';
-import VoteHistory from './components/VoteHistory';
+import MyPolls from './components/MyPolls';
 import './index.css';
 injectTapEventPlugin();
 
 const voteListQuery = {
   root: () => Relay.QL`query { root }`
 };
-
 
 ReactDOM.render(
   <Router
@@ -36,8 +35,8 @@ ReactDOM.render(
         queries={voteListQuery}
       />
       <Route
-        path='/votehistory'
-        component={VoteHistory}
+        path='/mypolls'
+        component={MyPolls}
         queries={voteListQuery}
       />
       <Route path='*' component={NoMatch} />

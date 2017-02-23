@@ -1,6 +1,7 @@
 let voteList = [
   {
     id: 1,
+    author: 'test',
     topic: 'Inbox',
     voteOptions: [
       {
@@ -16,6 +17,7 @@ let voteList = [
   },
   {
     id: 2,
+    author: 'test',
     topic: 'Starred',
     voteOptions: [
       {
@@ -33,6 +35,7 @@ let voteList = [
   },
   {
     id: 3,
+    author: 'test1',
     topic: 'Sent mail',
     voteOptions: [
       {
@@ -48,6 +51,7 @@ let voteList = [
   },
   {
     id: 4,
+    author: 'test1',
     topic: 'Drafts',
     voteOptions: [
       {
@@ -63,6 +67,7 @@ let voteList = [
   },
   {
     id: 5,
+    author: 'test1',
     topic: 'Inbox',
     voteOptions: [
       {
@@ -89,8 +94,8 @@ export const getVoteById = (id) => {
   return result;
 };
 
-export const getVoteHistory = (userId) => {
-  const result = voteList.filter((voteItem) => userId in voteItem.voteHistory);
+export const getUserPoll = (userId) => {
+  const result = voteList.filter((voteItem) => userId === voteItem.author);
   return result;
 };
 

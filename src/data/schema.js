@@ -27,7 +27,7 @@ import {
   getVoteList,
   getVoteById,
   voteForOption,
-  getVoteHistory,
+  getUserPoll,
 } from './database';
 
 /**
@@ -88,7 +88,7 @@ const VoteRoot = new GraphQLObjectType({
       },
       resolve: (src, args) => {
         if (args.userId) {
-          return getVoteHistory(args.userId)
+          return getUserPoll(args.userId)
         }
         return null;
       }

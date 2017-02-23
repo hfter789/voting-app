@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Relay from 'react-relay';
 import VoteListComponent from './VoteListComponent';
 
-class VoteHistory extends Component {
+class MyPoll extends Component {
   componentDidMount() {
     const { relay, userId } = this.props;
     relay.setVariables(
@@ -25,7 +25,7 @@ class VoteHistory extends Component {
         style={{maxWidth: '650px', margin: '0 auto'}}
       >
         <h2> Go Vote! </h2>
-        <h4> Below are votes that you participated in </h4>
+        <h4> Below are votes that you created </h4>
         <hr />
         <VoteListComponent voteList={this.props.root.userVote} />
       </div>
@@ -33,7 +33,7 @@ class VoteHistory extends Component {
   }
 }
 
-const VoteHistoryContainer = Relay.createContainer(VoteHistory, {
+const MyPollContainer = Relay.createContainer(MyPoll, {
   initialVariables: {
     userId: null
   },
@@ -52,4 +52,4 @@ const VoteHistoryContainer = Relay.createContainer(VoteHistory, {
   }
 });
 
-export default VoteHistoryContainer;
+export default MyPollContainer;
