@@ -44,7 +44,11 @@ class App extends Component {
               <Header setLoginUser={this.setLoginUser} />
               <Paper
                 zDepth={2}
-                style={{padding: '20px', textAlign: 'center', margin: '50px'}}
+                style={{
+                  padding: '20px',
+                  textAlign: 'center',
+                  margin: '50px auto',
+                }}
               >
                 {this.props.children && React.cloneElement(this.props.children, {
                   userID: 'test' || userID || clientIp,

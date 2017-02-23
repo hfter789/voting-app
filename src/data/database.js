@@ -1,3 +1,4 @@
+let currentId = 6;
 let voteList = [
   {
     id: 1,
@@ -82,6 +83,21 @@ let voteList = [
     voteHistory: {},
   },
 ];
+
+export const createPoll = (topic, voteOptions, author) => {
+  voteList.push({
+    id: currentId,
+    author,
+    topic,
+    voteOptions: voteOptions.map(option => ({
+      desc: option,
+      voteCount: 0
+    })),
+    voteHistory: {}
+  });
+  currentId++;
+  return currentId - 1;
+}
 
 export const getVoteById = (id) => {
   if (!id) {

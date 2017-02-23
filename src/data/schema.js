@@ -28,12 +28,12 @@ import {
   getVoteById,
   voteForOption,
   getUserPoll,
+  createPoll,
 } from './database';
 
 /**
  * Define your own types here
  */
-
 
 const voteOptionType = new GraphQLObjectType({
   name: 'VoteOption',
@@ -119,10 +119,30 @@ const VoteForOptionMutation = mutationWithClientMutationId({
   },
 });
 
+const CreatePollMutation = mutationWithClientMutationId({
+  name: 'createPollMutation',
+  inputFields: {
+    topic: { type: new GraphQLNonNull(GraphQLString) },
+    voteOptions: { type: new GraphQLList(GraphQLString) },
+    userId: { type: new GraphQLNonNull(GraphQLString) }
+  },
+  outputFields: {
+    voteInfo: {
+      type: new GraphQLList(voteType),
+      resolve: ({id}) => getVoteById(id),
+    },
+  },
+  mutateAndGetPayload: ({topic, voteOptions, userId}) => {
+    const id = createPoll(topic, voteOptions, userId);
+    return { id };
+  },
+});
+
 const mutationType = new GraphQLObjectType({
   name: 'Mutation',
   fields: () => ({
     voteForOption: VoteForOptionMutation,
+    createPoll: CreatePollMutation,
   }),
 });
 
