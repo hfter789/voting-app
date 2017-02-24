@@ -9,6 +9,7 @@ import VoteList from './components/VoteList';
 import NoMatch from './components/NoMatch';
 import VoteInfo from './components/VoteInfo';
 import MyPolls from './components/MyPolls';
+import PollCreator from './components/PollCreator';
 import './index.css';
 injectTapEventPlugin();
 
@@ -37,6 +38,11 @@ ReactDOM.render(
       <Route
         path='/mypolls'
         component={MyPolls}
+        queries={voteListQuery}
+      />
+      <Route
+        path='/newpoll'
+        component={PollCreator}
         queries={voteListQuery}
       />
       <Route path='*' component={NoMatch} />

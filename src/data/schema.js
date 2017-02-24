@@ -123,7 +123,7 @@ const CreatePollMutation = mutationWithClientMutationId({
   name: 'createPollMutation',
   inputFields: {
     topic: { type: new GraphQLNonNull(GraphQLString) },
-    voteOptions: { type: new GraphQLList(GraphQLString) },
+    voteOptions: { type: new GraphQLNonNull(new GraphQLList(GraphQLString)) },
     userId: { type: new GraphQLNonNull(GraphQLString) }
   },
   outputFields: {

@@ -6,8 +6,7 @@ import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import FontIcon from 'material-ui/FontIcon';
-import MapsPersonPin from 'material-ui/svg-icons/maps/person-pin';
+import AddIcon from 'material-ui/svg-icons/content/add';
 import { browserHistory } from 'react-router';
 
 export class UserMenu extends Component {
@@ -120,8 +119,8 @@ export class UserMenu extends Component {
           />
           <Tab
             style={{ width: 110, height: 64 }}
-            label="NEW POLL"
-            onActive={ () => { browserHistory.push('/') } }
+            icon={<AddIcon />}
+            onActive={ () => { browserHistory.push('/newpoll') } }
           />
         </Tabs>
         <span onClick={this.login}>
