@@ -20,12 +20,17 @@ class MyPoll extends Component {
   }
 
   render() {
+    const { root: { userVote } } = this.props;
     return (
       <div>
-        <h2> Go Vote! </h2>
-        <h4> Below are votes that you created </h4>
+        <h2> My Polls </h2>
         <hr />
-        <VoteListComponent voteList={this.props.root.userVote} />
+        {
+          userVote ?
+          <VoteListComponent voteList={userVote} />
+          :
+          <p>You did not create any polls yet.</p>
+        }
       </div>
     );
   }
