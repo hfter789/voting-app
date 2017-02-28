@@ -99,6 +99,16 @@ export const createPoll = (topic, voteOptions, author) => {
   return currentId - 1;
 }
 
+export const deletePoll = (id, author) => {
+  for (let i = 0; i < voteList.length; i++) {
+    if (voteList[i].id === +id) {
+      voteList.splice(i,1);
+      return null;
+    }
+  }
+  throw 'Id does not exist in vote list';
+}
+
 export const getVoteById = (id) => {
   if (!id) {
     return voteList;

@@ -29,6 +29,7 @@ import {
   voteForOption,
   getUserPoll,
   createPoll,
+  deletePoll,
 } from './database';
 
 /**
@@ -138,11 +139,24 @@ const CreatePollMutation = mutationWithClientMutationId({
   },
 });
 
+const DeletePollMutation = mutationWithClientMutationId({
+  name: 'deletePollMutation',
+  inputFields: {
+    id: { type: new GraphQLNonNull(GraphQLString) },
+    userId: { type: new GraphQLNonNull(GraphQLString) }
+  },
+  mutateAndGetPayload: ({id, userId}) => {
+    deletePoll(id, userId);
+    return {};
+  },
+});
+
 const mutationType = new GraphQLObjectType({
   name: 'Mutation',
   fields: () => ({
     voteForOption: VoteForOptionMutation,
     createPoll: CreatePollMutation,
+    deletePoll: DeletePollMutation,
   }),
 });
 
