@@ -6,9 +6,7 @@ class VoteList extends Component {
   render() {
 
     return (
-      <div
-        style={{maxWidth: '650px', margin: '0 auto'}}
-      >
+      <div>
         <h2> Go Vote! </h2>
         <h4> Below are polls hosted by Go Vote!. </h4>
         <h4> Select a poll to see the results and vote, or sign-in to make a new poll. </h4>

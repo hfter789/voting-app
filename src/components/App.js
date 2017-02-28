@@ -45,8 +45,7 @@ class App extends Component {
               <Paper
                 zDepth={2}
                 style={{
-                  padding: '20px',
-                  textAlign: 'center',
+                  padding: '20px 50px',
                   margin: '50px auto',
                 }}
               >

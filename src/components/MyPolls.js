@@ -21,9 +21,7 @@ class MyPoll extends Component {
 
   render() {
     return (
-      <div
-        style={{maxWidth: '650px', margin: '0 auto'}}
-      >
+      <div>
         <h2> Go Vote! </h2>
         <h4> Below are votes that you created </h4>
         <hr />

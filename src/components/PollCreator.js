@@ -65,7 +65,7 @@ class PollCreator extends Component {
         <br />
         <div style={{
           width: 256,
-          margin: '20px auto 0 auto',
+          margin: '20px 0',
           textAlign: 'right',
         }}>
           <RaisedButton
