@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Relay from 'react-relay';
+import Divider from 'material-ui/Divider';
 import VoteListComponent from './VoteListComponent';
 
 class MyPoll extends Component {
@@ -24,7 +25,7 @@ class MyPoll extends Component {
     return (
       <div>
         <h2> My Polls </h2>
-        <hr />
+        <Divider />
         {
           userVote ?
           <VoteListComponent voteList={userVote} />

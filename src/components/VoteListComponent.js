@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
+import Delete from 'material-ui/svg-icons/action/delete';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
 class VoteListComponent extends Component {
@@ -36,7 +37,10 @@ class VoteListComponent extends Component {
                       top: 0,
                     }}
                   >
-                    <MenuItem primaryText="Refresh" />
+                    <MenuItem
+                      primaryText="Delete"
+                      leftIcon={<Delete color={'#FF4081'} />}
+                    />
                   </IconMenu>
                   :
                   null
