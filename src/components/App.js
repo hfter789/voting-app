@@ -38,10 +38,11 @@ class App extends Component {
 
   render() {
     const { userID, clientIp } = this.state;
+    const { location: { pathname } } = this.props;
     return (
         <MuiThemeProvider>
           <div>
-              <Header setLoginUser={this.setLoginUser} />
+              <Header setLoginUser={this.setLoginUser} pathname={pathname} />
               <Paper
                 zDepth={2}
                 style={{

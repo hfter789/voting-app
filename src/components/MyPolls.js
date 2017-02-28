@@ -27,10 +27,10 @@ class MyPoll extends Component {
         <h2> My Polls </h2>
         <Divider />
         {
-          userVote ?
+          userVote.length ?
           <VoteListComponent voteList={userVote} />
           :
-          <p>You did not create any polls yet.</p>
+          <p>You have not create any polls yet.</p>
         }
       </div>
     );

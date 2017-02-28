@@ -4,12 +4,13 @@ import UserMenu from './UserMenu';
 
 class Header extends Component {
   render() {
+    const { setLoginUser, pathname } = this.props;
     return (
       <div>
         <AppBar
           title="Go Vote!"
           iconElementLeft={<div />}
-          iconElementRight={<UserMenu setLoginUser={this.props.setLoginUser} />}
+          iconElementRight={<UserMenu setLoginUser={setLoginUser} pathname={pathname} />}
           iconStyleRight={{ width: '50%', margin: 0 }}
         />
       </div>

@@ -24,8 +24,8 @@ ReactDOM.render(
     environment={Relay.Store}
   >
     <Route path='/' component={App}>
-      <IndexRedirect to='/votelists' />
-      <Route path='/votelists'
+      <IndexRedirect to='/votelist' />
+      <Route path='/votelist'
         component={VoteList}
         queries={voteListQuery}
         prepareParams={params => ({ ...params, id: null })}

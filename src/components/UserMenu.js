@@ -69,6 +69,7 @@ export class UserMenu extends Component {
   }
 
   render() {
+    const { pathname } = this.props;
     const { fullName } = this.state;
     if (fullName) {
       return (
@@ -106,20 +107,24 @@ export class UserMenu extends Component {
       >
         <Tabs
           style={{ paddingRight: 30, display: 'inline-block' }}
+          value={pathname}
         >
           <Tab
             style={{ width: 110, height: 64 }}
-            label="HOME"
-            onActive={ () => { browserHistory.push('/') } }
+            label='HOME'
+            value='/votelist'
+            onActive={ () => { browserHistory.push('/votelist') } }
           />
           <Tab
             style={{ width: 110, height: 64 }}
-            label="MY POLLS"
+            label='MY POLLS'
+            value='/mypolls'
             onActive={ () => { browserHistory.push('/mypolls') } }
           />
           <Tab
             style={{ width: 110, height: 64 }}
             icon={<AddIcon />}
+            value='/newpoll'
             onActive={ () => { browserHistory.push('/newpoll') } }
           />
         </Tabs>
