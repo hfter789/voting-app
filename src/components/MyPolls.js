@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Relay from 'react-relay';
 import Divider from 'material-ui/Divider';
 import VoteListComponent from './VoteListComponent';
+import DeletePollMutation from '../mutations/DeletePollMutation';
 
 class MyPoll extends Component {
   componentDidMount() {
@@ -9,6 +10,7 @@ class MyPoll extends Component {
     relay.setVariables(
       userId,
     );
+    this.props.relay.forceFetch();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -20,6 +22,22 @@ class MyPoll extends Component {
     }
   }
 
+  refresh() {
+    this.props.relay.forceFetch();
+  }
+
+  deletePoll(pollId) {
+    const self = this;
+    self.props.relay.commitUpdate(
+      new DeletePollMutation({
+        id: pollId,
+        userID: self.props.userID,
+      })
+    , {
+      onSuccess: this.refresh.bind(self)
+    });
+  }
+
   render() {
     const { root: { userVote } } = this.props;
     return (
@@ -28,7 +46,7 @@ class MyPoll extends Component {
         <Divider />
         {
           userVote.length ?
-          <VoteListComponent voteList={userVote} />
+          <VoteListComponent voteList={userVote} isOwner deletePoll={this.deletePoll.bind(this)}/>
           :
           <p>You have not create any polls yet.</p>
         }

@@ -9,7 +9,7 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
 class VoteListComponent extends Component {
   render() {
-    const { voteList, isOwner=true } = this.props;
+    const { voteList, isOwner, deletePoll } = this.props;
     if (!voteList) {
       return null;
     }
@@ -17,13 +17,14 @@ class VoteListComponent extends Component {
       <List>
         { 
           this.props.voteList.map((voteTopicObj) => {
+            const { id, topic } = voteTopicObj;
             return (
               <div style={{ position: 'relative' }}>
                 <Link
-                  to={`/vote/${voteTopicObj.id}`}
-                  key={voteTopicObj.id}
+                  to={`/vote/${id}`}
+                  key={id}
                 >
-                  <ListItem primaryText={voteTopicObj.topic} />
+                  <ListItem primaryText={topic} />
                 </Link>
                 {
                   isOwner ?
@@ -31,6 +32,7 @@ class VoteListComponent extends Component {
                     iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
                     anchorOrigin={{horizontal: 'left', vertical: 'top'}}
                     targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                    onChange={(e, id) => deletePoll(id)}
                     style={{
                       position: 'absolute',
                       right: 0,
@@ -40,6 +42,7 @@ class VoteListComponent extends Component {
                     <MenuItem
                       primaryText="Delete"
                       leftIcon={<Delete color={'#FF4081'} />}
+                      value={id}
                     />
                   </IconMenu>
                   :

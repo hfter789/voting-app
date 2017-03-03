@@ -4,6 +4,10 @@ import Divider from 'material-ui/Divider';
 import VoteListComponent from './VoteListComponent';
 
 class VoteList extends Component {
+  componentDidMount() {
+    this.props.relay.forceFetch();
+  }
+
   render() {
 
     return (
