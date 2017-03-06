@@ -20,6 +20,28 @@ export class UserMenu extends Component {
   }
 
   componentDidMount() {
+    // http://stackoverflow.com/questions/27717555/implement-facebook-api-login-with-reactjs
+    window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1744225809235326',
+      cookie     : true,  // enable cookies to allow the server to access
+                        // the session
+      xfbml      : true,  // parse social plugins on this page
+      version    : 'v2.1' // use version 2.1
+    });
+    FB.getLoginStatus(function(response) {
+      this.onStatusChange(response);
+    }.bind(this));
+  }.bind(this);
+
+  // Load the SDK asynchronously
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
     // TODO: if possible, make FB fully loaded before this is mounted
     // if (typeof(FB) !== 'undefined' && FB !== null ) {
     //   const self = this;
@@ -71,32 +93,6 @@ export class UserMenu extends Component {
   render() {
     const { pathname } = this.props;
     const { fullName } = this.state;
-    if (fullName) {
-      return (
-        <IconMenu
-          iconButtonElement={
-            <div style={{margin: '-10px 0'}}>
-              <div style={{
-                display: 'inline-block',
-                color: '#FFF',
-                padding: '12px 0',
-                verticalAlign: 'top',
-                height: '24px',
-                lineHeight: '24px',
-              }}>{ fullName }</div>
-              <IconButton>
-                <MoreVertIcon color='#FFF' />
-              </IconButton>
-            </div>}
-          anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-          targetOrigin={{horizontal: 'right', vertical: 'top'}}
-          iconStyle={{color: '#fff'}}
-        >
-          <MenuItem primaryText='My Votes' onClick={() => { browserHistory.push('/voteHistory') } } />
-          <MenuItem primaryText='Log Out' onClick={this.logout} />
-        </IconMenu>
-      );
-    }
     return (
       <div
         style={{
@@ -128,9 +124,43 @@ export class UserMenu extends Component {
             onActive={ () => { browserHistory.push('/newpoll') } }
           />
         </Tabs>
-        <span onClick={this.login}>
-          Login Via FB
-        </span>
+        {
+          fullName ?
+          <IconMenu
+            iconButtonElement={
+              <div
+                stlyle={{
+                  width: 120,
+                  textAlign: 'right',
+                }}
+              >
+                <div style={{
+                  display: 'inline-block',
+                  color: '#FFF',
+                }}>{ fullName }</div>
+                <IconButton style={{ verticalAlign: 'middle' }}>
+                  <MoreVertIcon color='#FFF' />
+                </IconButton>
+              </div>}
+            anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+            targetOrigin={{horizontal: 'right', vertical: 'top'}}
+            iconStyle={{color: '#fff'}}
+          >
+            <MenuItem primaryText='My Votes' onClick={() => { browserHistory.push('/voteHistory') } } />
+            <MenuItem primaryText='Log Out' onClick={this.logout} />
+          </IconMenu>
+          :
+          <div
+            onClick={this.login}
+            style={{
+              width: 120,
+              display: 'inline-block',
+              textAlign: 'right',
+            }}
+          >
+            Login Via FB
+          </div>
+        }
       </div>
     );
   }
