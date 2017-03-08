@@ -34,28 +34,23 @@ export class UserMenu extends Component {
     }.bind(this));
   }.bind(this);
 
-  // Load the SDK asynchronously
-  (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/en_US/sdk.js";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
-    // TODO: if possible, make FB fully loaded before this is mounted
-    // if (typeof(FB) !== 'undefined' && FB !== null ) {
-    //   const self = this;
-    //   FB.Event.subscribe('auth.statusChange',
-    //     self.onStatusChange.bind(this));
-    //   FB.getLoginStatus();
-    // }
+    // Load the SDK asynchronously
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
   }
 
   handleMyInfo(response) {
     if (response && !response.error) {
+      const { accessToken } = FB.getAuthResponse();
       this.props.setLoginUser({
         userID: response.id,
         fullName: response.name,
+        accessToken,
       });
       this.setState({
         fullName: response.name,
