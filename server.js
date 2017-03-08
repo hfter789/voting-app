@@ -4,6 +4,9 @@ var graphQLHTTP = require('express-graphql');
 var Schema = require('./src/data/schema').Schema;
 var app = express();
 
+// TODO: before passing information straight to graphql,
+// we need to authenticate user by their access token,
+// using endpoint https://graph.facebook.com/me?access_token=<ACCESS TOKEN>
 app.use('/graphql', graphQLHTTP({
     graphiql: true,
     pretty: true,
