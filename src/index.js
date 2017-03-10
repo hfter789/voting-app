@@ -4,6 +4,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import { Router, Route, IndexRedirect, browserHistory, applyRouterMiddleware } from 'react-router';
 import useRelay from 'react-router-relay';
 import Relay from 'react-relay';
+import cookie from 'react-cookie';
 import App from './components/App';
 import VoteList from './components/VoteList';
 import NoMatch from './components/NoMatch';
@@ -16,6 +17,14 @@ injectTapEventPlugin();
 const voteListQuery = {
   root: () => Relay.QL`query { root }`
 };
+
+Relay.injectNetworkLayer(
+  new Relay.DefaultNetworkLayer('/graphql', {
+    headers: {
+      Authorization: `${cookie.load('session') || ''}`,
+    },
+  })
+);
 
 ReactDOM.render(
   <Router

@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Header from './Header';
 import Paper from 'material-ui/Paper';
+import cookie from 'react-cookie';
 
 class App extends Component {
   constructor(props) {
@@ -13,10 +14,10 @@ class App extends Component {
 
   setLoginUser(userObject) {
     this.setState({
-      userID: userObject.userID,
+      userID: userObject.accessToken,
       fullName: userObject.fullName,
-      accessToken: userObject.accessToken,
     });
+    cookie.save('session', userObject.accessToken);
   }
 
   render() {

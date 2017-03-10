@@ -68,6 +68,9 @@ const voteType = new GraphQLObjectType({
 const VoteRoot = new GraphQLObjectType({
   name: 'VoteRoot',
   description: 'root of the query',
+  resolve: (parentValue, _, { rootValue: { session }}) => {
+    console.log(session);
+  },
   fields: () => ({
     vote: {
       type: new GraphQLList(voteType),
