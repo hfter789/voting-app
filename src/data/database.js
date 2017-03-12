@@ -2,7 +2,7 @@ let currentId = 6;
 let voteList = [
   {
     id: 1,
-    author: 'test',
+    author: '1153276638052704',
     topic: 'Inbox',
     voteOptions: [
       {
@@ -18,7 +18,7 @@ let voteList = [
   },
   {
     id: 2,
-    author: 'test',
+    author: '1153276638052704',
     topic: 'Starred',
     voteOptions: [
       {
@@ -31,7 +31,7 @@ let voteList = [
       }
     ],
     voteHistory: {
-      test: 0
+      1153276638052704: 0
     },
   },
   {

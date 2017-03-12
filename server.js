@@ -7,11 +7,11 @@ var app = express();
 // TODO: before passing information straight to graphql,
 // we need to authenticate user by their access token,
 // using endpoint https://graph.facebook.com/me?access_token=<ACCESS TOKEN>
-app.use('/graphql', graphQLHTTP({
+app.use('/graphql', graphQLHTTP((request) =>({
     graphiql: true,
     pretty: true,
     schema: Schema,
-}));
+})));
 
 app.listen(4080, function() {
   console.log('graphql is running at 4080!');

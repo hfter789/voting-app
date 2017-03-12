@@ -32,6 +32,10 @@ import {
   deletePoll,
 } from './database';
 
+import {
+  getUser
+} from './auth';
+
 /**
  * Define your own types here
  */
@@ -68,9 +72,6 @@ const voteType = new GraphQLObjectType({
 const VoteRoot = new GraphQLObjectType({
   name: 'VoteRoot',
   description: 'root of the query',
-  resolve: (parentValue, _, { rootValue: { session }}) => {
-    console.log(session);
-  },
   fields: () => ({
     vote: {
       type: new GraphQLList(voteType),
@@ -79,7 +80,7 @@ const VoteRoot = new GraphQLObjectType({
           type: GraphQLID
         }
       },
-      resolve: (src, args) => {
+      resolve: (userId, args) => {
         return getVoteById(args.id)
       }
     },
@@ -90,9 +91,9 @@ const VoteRoot = new GraphQLObjectType({
           type: GraphQLString
         }
       },
-      resolve: (src, args) => {
-        if (args.userId) {
-          return getUserPoll(args.userId)
+      resolve: (userId, args) => {
+        if (userId) {
+          return getUserPoll(userId)
         }
         return null;
       }
@@ -170,12 +171,16 @@ const mutationType = new GraphQLObjectType({
 
 const queryType = new GraphQLObjectType({
   name: 'Query',
-  fields: () => ({
+  fields: {
     root: {
       type: VoteRoot,
-      resolve: () => ({})
+      resolve: (arg1, arg2, req) => {
+        var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        const { headers: { authorization } } = req;
+        return getUser(authorization, ip);
+      }
     }
-  }),
+  },
 });
 
 /**
