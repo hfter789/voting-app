@@ -26,7 +26,6 @@ export default class DeletePollMutation extends Relay.Mutation {
   getVariables() {
     return {
       id: this.props.id,
-      userId: this.props.userID,
     };
   }
 }

@@ -32,7 +32,6 @@ class PollCreator extends Component {
       new CreatePollMutation({
         topic,
         voteOptions: voteOptionTokens,
-        userID: self.props.userID,
       })
     , {
       onFailure: (transaction) => {
@@ -90,7 +89,7 @@ const PollCreatorContainer = Relay.createContainer(PollCreator, {
     root: () => {
       return Relay.QL`
         fragment on VoteRoot {
-          userVote(userId: "test") {
+          userVote {
             id,
             topic
           }

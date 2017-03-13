@@ -31,7 +31,6 @@ export default class CreatePollMutation extends Relay.Mutation {
     return {
       topic: this.props.topic,
       voteOptions: this.props.voteOptions,
-      userId: this.props.userID,
     };
   }
 }

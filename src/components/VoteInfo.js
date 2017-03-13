@@ -22,7 +22,6 @@ class VoteInfo extends Component {
       new VoteForOptionMutation({
         voteInfo,
         optionIndex,
-        userID: self.props.userID,
       })
     , {
       onFailure: (transaction) => {

@@ -38,7 +38,6 @@ export default class VoteForOptionMutation extends Relay.Mutation {
     return {
       id: this.props.voteInfo.id,
       voteOptionIndex: this.props.optionIndex,
-      userId: this.props.userId,
     };
   }
 }

@@ -16,7 +16,7 @@ class VoteListComponent extends Component {
     return (
       <List>
         { 
-          this.props.voteList.map((voteTopicObj) => {
+          voteList.map((voteTopicObj) => {
             const { id, topic } = voteTopicObj;
             return (
               <div style={{ position: 'relative' }}>

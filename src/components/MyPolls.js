@@ -5,22 +5,6 @@ import VoteListComponent from './VoteListComponent';
 import DeletePollMutation from '../mutations/DeletePollMutation';
 
 class MyPoll extends Component {
-  componentDidMount() {
-    const { relay, userId } = this.props;
-    relay.setVariables(
-      userId,
-    );
-    this.props.relay.forceFetch();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { userId } = nextProps;
-    if (userId !== this.props.userId) {
-      this.props.relay.setVariables(
-        userId,
-      );
-    }
-  }
 
   refresh() {
     this.props.relay.forceFetch();
@@ -31,7 +15,6 @@ class MyPoll extends Component {
     self.props.relay.commitUpdate(
       new DeletePollMutation({
         id: pollId,
-        userID: self.props.userID,
       })
     , {
       onSuccess: this.refresh.bind(self)
@@ -56,9 +39,6 @@ class MyPoll extends Component {
 }
 
 const MyPollContainer = Relay.createContainer(MyPoll, {
-  initialVariables: {
-    userId: null
-  },
 
   fragments: {
     root: () => {

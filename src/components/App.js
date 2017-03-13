@@ -13,16 +13,11 @@ class App extends Component {
   }
 
   setLoginUser(userObject) {
-    this.setState({
-      userID: userObject.accessToken,
-      fullName: userObject.fullName,
-    });
     cookie.save('session', userObject.accessToken);
   }
 
   render() {
-    const { userID } = this.state;
-    const { location: { pathname } } = this.props;
+    const { location: { pathname }, children } = this.props;
     return (
         <MuiThemeProvider>
           <div>
@@ -34,9 +29,7 @@ class App extends Component {
                   margin: '50px auto',
                 }}
               >
-                {this.props.children && React.cloneElement(this.props.children, {
-                  userID,
-                })}
+                { children }
               </Paper>
            </div>
         </MuiThemeProvider>

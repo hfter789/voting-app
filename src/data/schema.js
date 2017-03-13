@@ -97,7 +97,6 @@ const VoteForOptionMutation = mutationWithClientMutationId({
   inputFields: {
     id: { type: GraphQLInt },
     voteOptionIndex: { type: GraphQLInt },
-    userId: { type: GraphQLString }
   },
   outputFields: {
     voteInfo: {
@@ -109,7 +108,7 @@ const VoteForOptionMutation = mutationWithClientMutationId({
       resolve: ({id, result}) => result,
     },
   },
-  mutateAndGetPayload: ({id, voteOptionIndex, userId}) => {
+  mutateAndGetPayload: ({id, voteOptionIndex}, args, context, { rootValue: { userId } }) => {
     const result = voteForOption(id, voteOptionIndex, userId);
     return {id, result};
   },
@@ -120,7 +119,6 @@ const CreatePollMutation = mutationWithClientMutationId({
   inputFields: {
     topic: { type: new GraphQLNonNull(GraphQLString) },
     voteOptions: { type: new GraphQLNonNull(new GraphQLList(GraphQLString)) },
-    userId: { type: new GraphQLNonNull(GraphQLString) }
   },
   outputFields: {
     voteInfo: {
@@ -128,7 +126,7 @@ const CreatePollMutation = mutationWithClientMutationId({
       resolve: ({id}) => getVoteById(id),
     },
   },
-  mutateAndGetPayload: ({topic, voteOptions, userId}) => {
+  mutateAndGetPayload: ({topic, voteOptions}, context, { rootValue: { userId } }) => {
     const id = createPoll(topic, voteOptions, userId);
     return { id };
   },
@@ -138,9 +136,8 @@ const DeletePollMutation = mutationWithClientMutationId({
   name: 'deletePollMutation',
   inputFields: {
     id: { type: new GraphQLNonNull(GraphQLString) },
-    userId: { type: new GraphQLNonNull(GraphQLString) }
   },
-  mutateAndGetPayload: ({id, userId}) => {
+  mutateAndGetPayload: ({id}, context, { rootValue: { userId } }) => {
     deletePoll(id, userId);
     return {};
   },
