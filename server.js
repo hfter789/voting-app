@@ -1,16 +1,40 @@
 require('./server.babel');
 var express = require('express');
 var graphQLHTTP = require('express-graphql');
+var axios = require('axios');
 var Schema = require('./src/data/schema').Schema;
 var app = express();
+const localCache = {};
 
 // TODO: before passing information straight to graphql,
 // we need to authenticate user by their access token,
 // using endpoint https://graph.facebook.com/me?access_token=<ACCESS TOKEN>
-app.use('/graphql', graphQLHTTP((request) =>({
+
+function getSessionData(req, resp, next) {
+  var { authorization: authToken } = req.headers;
+  if (localCache[authToken]) {
+    req.userId = localCache[authToken];
+    next();
+  }
+  return axios.get(`https://graph.facebook.com/me?access_token=${authToken}`)
+  .then(authResp => {
+    const userId = authResp.data.id;
+    localCache[authToken] = userId;
+    req.userId = userId;
+    next();
+  })
+  .catch(error => {
+    // throw error;
+    next();
+  });
+}
+
+
+app.use('/graphql', getSessionData, graphQLHTTP(({ userId }) =>({
     graphiql: true,
     pretty: true,
     schema: Schema,
+    rootValue: { userId }
 })));
 
 app.listen(4080, function() {

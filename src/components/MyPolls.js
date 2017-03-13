@@ -64,7 +64,7 @@ const MyPollContainer = Relay.createContainer(MyPoll, {
     root: () => {
       return Relay.QL`
         fragment on VoteRoot {
-          userVote(userId: "test") {
+          userVote {
             id,
             topic
           }

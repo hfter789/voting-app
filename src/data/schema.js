@@ -32,10 +32,6 @@ import {
   deletePoll,
 } from './database';
 
-import {
-  getUser
-} from './auth';
-
 /**
  * Define your own types here
  */
@@ -80,22 +76,17 @@ const VoteRoot = new GraphQLObjectType({
           type: GraphQLID
         }
       },
-      resolve: (userId, args) => {
+      resolve: (root, args) => {
         return getVoteById(args.id)
       }
     },
     userVote: {
       type: new GraphQLList(voteType),
-      args: {
-        userId: {
-          type: GraphQLString
-        }
-      },
-      resolve: (userId, args) => {
+      resolve: (root, args, context, { rootValue: { userId } }) => {
         if (userId) {
           return getUserPoll(userId)
         }
-        return null;
+        return [];
       }
     }
   }),
@@ -174,11 +165,7 @@ const queryType = new GraphQLObjectType({
   fields: {
     root: {
       type: VoteRoot,
-      resolve: (arg1, arg2, req) => {
-        var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-        const { headers: { authorization } } = req;
-        return getUser(authorization, ip);
-      }
+      resolve: () => ({})
     }
   },
 });
