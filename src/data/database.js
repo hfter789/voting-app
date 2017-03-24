@@ -14,7 +14,7 @@ let voteList = [
         voteCount: 10
       }
     ],
-    voteHistory: {},
+    voteHistory: {}
   },
   {
     id: 2,
@@ -32,7 +32,7 @@ let voteList = [
     ],
     voteHistory: {
       1153276638052704: 0
-    },
+    }
   },
   {
     id: 3,
@@ -48,7 +48,7 @@ let voteList = [
         voteCount: 10
       }
     ],
-    voteHistory: {},
+    voteHistory: {}
   },
   {
     id: 4,
@@ -64,7 +64,7 @@ let voteList = [
         voteCount: 10
       }
     ],
-    voteHistory: {},
+    voteHistory: {}
   },
   {
     id: 5,
@@ -80,8 +80,8 @@ let voteList = [
         voteCount: 10
       }
     ],
-    voteHistory: {},
-  },
+    voteHistory: {}
+  }
 ];
 
 export const createPoll = (topic, voteOptions, author) => {
@@ -97,43 +97,53 @@ export const createPoll = (topic, voteOptions, author) => {
   });
   currentId++;
   return currentId - 1;
-}
+};
 
 export const deletePoll = (id, author) => {
   for (let i = 0; i < voteList.length; i++) {
     if (voteList[i].id === +id) {
-      voteList.splice(i,1);
+      voteList.splice(i, 1);
       return null;
     }
   }
   throw 'Id does not exist in vote list';
-}
+};
 
-export const getVoteById = (id) => {
+export const getVoteById = id => {
   if (!id) {
     return voteList;
   }
-  const result = voteList.filter((vote) => {
+  const result = voteList.filter(vote => {
     return vote.id === +id;
   });
 
   return result;
 };
 
-export const getUserPoll = (userId) => {
-  const result = voteList.filter((voteItem) => userId === voteItem.author);
+export const getUserPoll = userId => {
+  const result = voteList.filter(voteItem => userId === voteItem.author);
   return result;
 };
 
-export const voteForOption = (id, voteOptionIndex, userId) => {
+export const voteForOption = (id, voteOptionIndex, newVoteOption, userId) => {
   const voteItems = getVoteById(id);
-  if(voteItems.length) {
+  if (voteItems.length) {
     const voteItem = voteItems[0];
-    if(userId in voteItem.voteHistory) {
+    if (userId in voteItem.voteHistory) {
       throw 'Same user/ip cannot vote twice';
     } else {
-      voteItem.voteOptions[voteOptionIndex].voteCount++;
-      voteItem.voteHistory[userId] = voteOptionIndex;
+      if (voteOptionIndex) {
+        voteItem.voteOptions[voteOptionIndex].voteCount++;
+        voteItem.voteHistory[userId] = voteOptionIndex;
+      } else if (newVoteOption) {
+        voteItem.voteOptions.push({
+          desc: newVoteOption,
+          voteCount: 1
+        });
+        voteItem.voteHistory[userId] = voteItem.voteOptions.length - 1;
+      } else {
+        throw 'Please provide either voteOptionIndex or newVoteOption';
+      }
       return null;
     }
   }
