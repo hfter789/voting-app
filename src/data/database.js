@@ -1,3 +1,4 @@
+import { log } from 'winston';
 let currentId = 6;
 let voteList = [
   {
@@ -7,14 +8,14 @@ let voteList = [
     voteOptions: [
       {
         desc: 'desc',
-        voteCount: 5
+        voteCount: 5,
       },
       {
         desc: 'desc2',
-        voteCount: 10
-      }
+        voteCount: 10,
+      },
     ],
-    voteHistory: {}
+    voteHistory: {},
   },
   {
     id: 2,
@@ -23,16 +24,16 @@ let voteList = [
     voteOptions: [
       {
         desc: 'desc',
-        voteCount: 5
+        voteCount: 5,
       },
       {
         desc: 'desc2',
-        voteCount: 10
-      }
+        voteCount: 10,
+      },
     ],
     voteHistory: {
-      1153276638052704: 0
-    }
+      1153276638052704: 0,
+    },
   },
   {
     id: 3,
@@ -41,14 +42,14 @@ let voteList = [
     voteOptions: [
       {
         desc: 'desc',
-        voteCount: 5
+        voteCount: 5,
       },
       {
         desc: 'desc2',
-        voteCount: 10
-      }
+        voteCount: 10,
+      },
     ],
-    voteHistory: {}
+    voteHistory: {},
   },
   {
     id: 4,
@@ -57,14 +58,14 @@ let voteList = [
     voteOptions: [
       {
         desc: 'desc',
-        voteCount: 5
+        voteCount: 5,
       },
       {
         desc: 'desc2',
-        voteCount: 10
-      }
+        voteCount: 10,
+      },
     ],
-    voteHistory: {}
+    voteHistory: {},
   },
   {
     id: 5,
@@ -73,27 +74,28 @@ let voteList = [
     voteOptions: [
       {
         desc: 'desc',
-        voteCount: 5
+        voteCount: 5,
       },
       {
         desc: 'desc2',
-        voteCount: 10
-      }
+        voteCount: 10,
+      },
     ],
-    voteHistory: {}
-  }
+    voteHistory: {},
+  },
 ];
 
 export const createPoll = (topic, voteOptions, author) => {
+  log('info', `${author} created a poll on ${topic}`);
   voteList.push({
     id: currentId,
     author,
     topic,
     voteOptions: voteOptions.map(option => ({
       desc: option,
-      voteCount: 0
+      voteCount: 0,
     })),
-    voteHistory: {}
+    voteHistory: {},
   });
   currentId++;
   return currentId - 1;
@@ -110,6 +112,7 @@ export const deletePoll = (id, author) => {
 };
 
 export const getVoteById = id => {
+  log('info', `get vote b Id: ${id}`);
   if (!id) {
     return voteList;
   }
@@ -122,6 +125,7 @@ export const getVoteById = id => {
 
 export const getUserPoll = userId => {
   const result = voteList.filter(voteItem => userId === voteItem.author);
+  log('info', `${userId} gets user poll: ${result.length} result(s)`);
   return result;
 };
 
@@ -130,17 +134,23 @@ export const voteForOption = (id, voteOptionIndex, newVoteOption, userId) => {
   if (voteItems.length) {
     const voteItem = voteItems[0];
     if (userId in voteItem.voteHistory) {
+      log('info', `${userId} tried to vote twice. Rejected.`);
       throw 'Same user/ip cannot vote twice';
     } else {
       if (voteOptionIndex !== null && voteOptionIndex !== undefined) {
         voteItem.voteOptions[voteOptionIndex].voteCount++;
         voteItem.voteHistory[userId] = voteOptionIndex;
+        log('info', `${userId} voted for ${voteOptionIndex} in ${id}`);
       } else if (newVoteOption) {
         voteItem.voteOptions.push({
           desc: newVoteOption,
-          voteCount: 1
+          voteCount: 1,
         });
         voteItem.voteHistory[userId] = voteItem.voteOptions.length - 1;
+        log(
+          'info',
+          `${userId} created a new option ${newVoteOption} for ${id}`
+        );
       } else {
         throw 'Please provide either voteOptionIndex or newVoteOption';
       }

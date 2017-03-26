@@ -34,7 +34,7 @@ app.use('/graphql', getSessionData, graphQLHTTP(({ userId }) =>({
     graphiql: true,
     pretty: true,
     schema: Schema,
-    rootValue: { userId }
+    rootValue: { userId },
 })));
 
 app.listen(4080, function() {
