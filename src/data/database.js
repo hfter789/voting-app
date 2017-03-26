@@ -132,7 +132,7 @@ export const voteForOption = (id, voteOptionIndex, newVoteOption, userId) => {
     if (userId in voteItem.voteHistory) {
       throw 'Same user/ip cannot vote twice';
     } else {
-      if (voteOptionIndex) {
+      if (voteOptionIndex !== null && voteOptionIndex !== undefined) {
         voteItem.voteOptions[voteOptionIndex].voteCount++;
         voteItem.voteHistory[userId] = voteOptionIndex;
       } else if (newVoteOption) {

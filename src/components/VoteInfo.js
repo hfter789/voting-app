@@ -13,7 +13,7 @@ class VoteInfo extends Component {
     this.state = {};
   }
 
-  handleVote(voteInfo, optionIndex) {
+  handleVote(voteInfo, optionIndex, newVoteOption) {
     const self = this;
     self.setState({
       errorMessage: '',
@@ -22,6 +22,7 @@ class VoteInfo extends Component {
       new VoteForOptionMutation({
         voteInfo,
         optionIndex,
+        newVoteOption,
       })
     , {
       onFailure: (transaction) => {

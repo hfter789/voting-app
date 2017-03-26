@@ -16,7 +16,7 @@ import {
   GraphQLNonNull,
   GraphQLObjectType,
   GraphQLSchema,
-  GraphQLString
+  GraphQLString,
 } from 'graphql';
 
 import { mutationWithClientMutationId } from 'graphql-relay';
@@ -27,7 +27,7 @@ import {
   voteForOption,
   getUserPoll,
   createPoll,
-  deletePoll
+  deletePoll,
 } from './database';
 
 /**
@@ -39,12 +39,12 @@ const voteOptionType = new GraphQLObjectType({
   description: 'the vote option description and vote option count',
   fields: () => ({
     desc: {
-      type: GraphQLString
+      type: GraphQLString,
     },
     voteCount: {
-      type: GraphQLInt
-    }
-  })
+      type: GraphQLInt,
+    },
+  }),
 });
 
 const voteType = new GraphQLObjectType({
@@ -52,15 +52,15 @@ const voteType = new GraphQLObjectType({
   description: 'vote summary about how many votes each options get',
   fields: () => ({
     id: {
-      type: new GraphQLNonNull(GraphQLID)
+      type: new GraphQLNonNull(GraphQLID),
     },
     topic: {
-      type: GraphQLString
+      type: GraphQLString,
     },
     voteOptions: {
-      type: new GraphQLList(voteOptionType)
-    }
-  })
+      type: new GraphQLList(voteOptionType),
+    },
+  }),
 });
 
 const VoteRoot = new GraphQLObjectType({
@@ -71,12 +71,12 @@ const VoteRoot = new GraphQLObjectType({
       type: new GraphQLList(voteType),
       args: {
         id: {
-          type: GraphQLID
-        }
+          type: GraphQLID,
+        },
       },
       resolve: (root, args) => {
         return getVoteById(args.id);
-      }
+      },
     },
     userVote: {
       type: new GraphQLList(voteType),
@@ -85,9 +85,9 @@ const VoteRoot = new GraphQLObjectType({
           return getUserPoll(userId);
         }
         return [];
-      }
-    }
-  })
+      },
+    },
+  }),
 });
 
 const VoteForOptionMutation = mutationWithClientMutationId({
@@ -95,40 +95,39 @@ const VoteForOptionMutation = mutationWithClientMutationId({
   inputFields: {
     id: { type: GraphQLInt },
     voteOptionIndex: { type: GraphQLInt },
-    newVoteOption: { type: GraphQLString }
+    newVoteOption: { type: GraphQLString },
   },
   outputFields: {
     voteInfo: {
       type: new GraphQLList(voteType),
-      resolve: ({ id }) => getVoteById(id)
+      resolve: ({ id }) => getVoteById(id),
     },
     error: {
       type: GraphQLString,
-      resolve: ({ id, result }) => result
-    }
+      resolve: ({ id, result }) => result,
+    },
   },
   mutateAndGetPayload: (
     { id, voteOptionIndex, newVoteOption },
-    args,
     context,
     { rootValue: { userId } }
   ) => {
     const result = voteForOption(id, voteOptionIndex, newVoteOption, userId);
     return { id, result };
-  }
+  },
 });
 
 const CreatePollMutation = mutationWithClientMutationId({
   name: 'createPollMutation',
   inputFields: {
     topic: { type: new GraphQLNonNull(GraphQLString) },
-    voteOptions: { type: new GraphQLNonNull(new GraphQLList(GraphQLString)) }
+    voteOptions: { type: new GraphQLNonNull(new GraphQLList(GraphQLString)) },
   },
   outputFields: {
     voteInfo: {
       type: new GraphQLList(voteType),
-      resolve: ({ id }) => getVoteById(id)
-    }
+      resolve: ({ id }) => getVoteById(id),
+    },
   },
   mutateAndGetPayload: (
     { topic, voteOptions },
@@ -137,18 +136,18 @@ const CreatePollMutation = mutationWithClientMutationId({
   ) => {
     const id = createPoll(topic, voteOptions, userId);
     return { id };
-  }
+  },
 });
 
 const DeletePollMutation = mutationWithClientMutationId({
   name: 'deletePollMutation',
   inputFields: {
-    id: { type: new GraphQLNonNull(GraphQLString) }
+    id: { type: new GraphQLNonNull(GraphQLString) },
   },
   mutateAndGetPayload: ({ id }, context, { rootValue: { userId } }) => {
     deletePoll(id, userId);
     return {};
-  }
+  },
 });
 
 const mutationType = new GraphQLObjectType({
@@ -156,8 +155,8 @@ const mutationType = new GraphQLObjectType({
   fields: () => ({
     voteForOption: VoteForOptionMutation,
     createPoll: CreatePollMutation,
-    deletePoll: DeletePollMutation
-  })
+    deletePoll: DeletePollMutation,
+  }),
 });
 
 /**
@@ -170,9 +169,9 @@ const queryType = new GraphQLObjectType({
   fields: {
     root: {
       type: VoteRoot,
-      resolve: () => ({})
-    }
-  }
+      resolve: () => ({}),
+    },
+  },
 });
 
 /**
@@ -181,5 +180,5 @@ const queryType = new GraphQLObjectType({
  */
 export const Schema = new GraphQLSchema({
   query: queryType,
-  mutation: mutationType
+  mutation: mutationType,
 });

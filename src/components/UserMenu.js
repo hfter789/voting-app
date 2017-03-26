@@ -123,12 +123,7 @@ export class UserMenu extends Component {
           fullName ?
           <IconMenu
             iconButtonElement={
-              <div
-                stlyle={{
-                  width: 120,
-                  textAlign: 'right',
-                }}
-              >
+              <div>
                 <div style={{
                   display: 'inline-block',
                   color: '#FFF',
