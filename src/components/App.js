@@ -1,9 +1,8 @@
-/* globals btoa */
+/* globals btoa, sessionStorage */
 import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Header from './Header';
 import Paper from 'material-ui/Paper';
-import cookie from 'react-cookie';
 
 class App extends Component {
   constructor(props) {
@@ -13,7 +12,7 @@ class App extends Component {
   }
 
   setLoginUser(userObject) {
-    cookie.save('session', userObject.accessToken);
+    sessionStorage.setItem('session', userObject.accessToken);
   }
 
   render() {

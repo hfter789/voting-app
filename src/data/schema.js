@@ -22,7 +22,6 @@ import {
 import { mutationWithClientMutationId } from 'graphql-relay';
 
 import {
-  getVoteList,
   getVoteById,
   voteForOption,
   getUserPoll,
@@ -75,7 +74,8 @@ const VoteRoot = new GraphQLObjectType({
         },
       },
       resolve: (root, args) => {
-        return getVoteById(args.id);
+        const list = getVoteById(args.id);
+        return list;
       },
     },
     userVote: {

@@ -7,7 +7,7 @@ import DeletePollMutation from '../mutations/DeletePollMutation';
 class MyPoll extends Component {
 
   componentDidMount() {
-    this.refresh()
+    this.refresh();
   }
 
   refresh() {

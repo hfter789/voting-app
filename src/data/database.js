@@ -1,4 +1,8 @@
 import { log } from 'winston';
+import { MongoClient } from 'mongodb';
+
+const url = 'mongodb://localhost:27017/test';
+
 let currentId = 6;
 let voteList = [
   {
@@ -85,6 +89,19 @@ let voteList = [
   },
 ];
 
+let voteListCollection;
+
+MongoClient.connect(url, function(err, db) {
+  if (err) {
+    log('error', err);
+  }
+  voteListCollection = db.collection('voteList');
+  // voteListCollection.insertMany(voteList, (err, result) => {
+  //   log('error', err);
+  //   log('info', result);
+  // });
+});
+
 export const createPoll = (topic, voteOptions, author) => {
   log('info', `${author} created a poll on ${topic}`);
   voteList.push({
@@ -111,16 +128,23 @@ export const deletePoll = (id, author) => {
   throw 'Id does not exist in vote list';
 };
 
-export const getVoteById = id => {
+export const getVoteById = async id => {
   log('info', `get vote b Id: ${id}`);
-  if (!id) {
-    return voteList;
+  // if (!id) {
+  //   return voteList;
+  // }
+  const query = {};
+  if (id) {
+    query[id] = id;
   }
-  const result = voteList.filter(vote => {
-    return vote.id === +id;
-  });
-
+  const result = await voteListCollection.find(query).toArray();
+  log('info', `Result for id:${id} has size ${result.length}`);
   return result;
+  // const result = voteList.filter(vote => {
+  //   return vote.id === +id;
+  // });
+  //
+  // return result;
 };
 
 export const getUserPoll = userId => {
