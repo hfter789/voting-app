@@ -129,22 +129,14 @@ export const deletePoll = (id, author) => {
 };
 
 export const getVoteById = async id => {
-  log('info', `get vote b Id: ${id}`);
-  // if (!id) {
-  //   return voteList;
-  // }
+  log('info', `get vote by id: ${id}`);
   const query = {};
   if (id) {
-    query[id] = id;
+    query.id = +id;
   }
   const result = await voteListCollection.find(query).toArray();
   log('info', `Result for id:${id} has size ${result.length}`);
   return result;
-  // const result = voteList.filter(vote => {
-  //   return vote.id === +id;
-  // });
-  //
-  // return result;
 };
 
 export const getUserPoll = userId => {
