@@ -136,7 +136,6 @@ export class UserMenu extends Component {
             targetOrigin={{horizontal: 'right', vertical: 'top'}}
             iconStyle={{color: '#fff'}}
           >
-            <MenuItem primaryText='My Votes' onClick={() => { browserHistory.push('/voteHistory') } } />
             <MenuItem primaryText='Log Out' onClick={this.logout} />
           </IconMenu>
           :

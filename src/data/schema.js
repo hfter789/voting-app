@@ -104,7 +104,7 @@ const VoteForOptionMutation = mutationWithClientMutationId({
     },
     error: {
       type: GraphQLString,
-      resolve: ({ id, result }) => result,
+      resolve: ({ error }) => error,
     },
   },
   mutateAndGetPayload: (
@@ -112,8 +112,8 @@ const VoteForOptionMutation = mutationWithClientMutationId({
     context,
     { rootValue: { userId } }
   ) => {
-    const result = voteForOption(id, voteOptionIndex, newVoteOption, userId);
-    return { id, result };
+    const { error } = voteForOption(id, voteOptionIndex, newVoteOption, userId);
+    return { id, error };
   },
 });
 

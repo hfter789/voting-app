@@ -4,107 +4,27 @@ import { MongoClient } from 'mongodb';
 const url = 'mongodb://localhost:27017/test';
 
 let currentId = 6;
-let voteList = [
-  {
-    id: 1,
-    author: '1153276638052704',
-    topic: 'Inbox',
-    voteOptions: [
-      {
-        desc: 'desc',
-        voteCount: 5,
-      },
-      {
-        desc: 'desc2',
-        voteCount: 10,
-      },
-    ],
-    voteHistory: {},
-  },
-  {
-    id: 2,
-    author: '1153276638052704',
-    topic: 'Starred',
-    voteOptions: [
-      {
-        desc: 'desc',
-        voteCount: 5,
-      },
-      {
-        desc: 'desc2',
-        voteCount: 10,
-      },
-    ],
-    voteHistory: {
-      1153276638052704: 0,
-    },
-  },
-  {
-    id: 3,
-    author: 'test1',
-    topic: 'Sent mail',
-    voteOptions: [
-      {
-        desc: 'desc',
-        voteCount: 5,
-      },
-      {
-        desc: 'desc2',
-        voteCount: 10,
-      },
-    ],
-    voteHistory: {},
-  },
-  {
-    id: 4,
-    author: 'test1',
-    topic: 'Drafts',
-    voteOptions: [
-      {
-        desc: 'desc',
-        voteCount: 5,
-      },
-      {
-        desc: 'desc2',
-        voteCount: 10,
-      },
-    ],
-    voteHistory: {},
-  },
-  {
-    id: 5,
-    author: 'test1',
-    topic: 'Inbox',
-    voteOptions: [
-      {
-        desc: 'desc',
-        voteCount: 5,
-      },
-      {
-        desc: 'desc2',
-        voteCount: 10,
-      },
-    ],
-    voteHistory: {},
-  },
-];
+// import voteList from './initData';
 
 let voteListCollection;
 
-MongoClient.connect(url, function(err, db) {
+MongoClient.connect(url, async (err, db) => {
   if (err) {
     log('error', err);
   }
   voteListCollection = db.collection('voteList');
-  // voteListCollection.insertMany(voteList, (err, result) => {
-  //   log('error', err);
-  //   log('info', result);
-  // });
+  // const currentList = getVoteById();
+  // if (!currentList.length) {
+  //   voteListCollection.insertMany(voteList, (err, result) => {
+  //     log('error', err);
+  //     log('info', result);
+  //   });
+  // }
 });
 
-export const createPoll = (topic, voteOptions, author) => {
+export const createPoll = async (topic, voteOptions, author) => {
   log('info', `${author} created a poll on ${topic}`);
-  voteList.push({
+  await voteListCollection.insertOne({
     id: currentId,
     author,
     topic,
@@ -114,6 +34,8 @@ export const createPoll = (topic, voteOptions, author) => {
     })),
     voteHistory: {},
   });
+  // this approach would not work for multiple instance of node,
+  // we can use id from mongodb instead
   currentId++;
   return currentId - 1;
 };
@@ -155,7 +77,7 @@ export const voteForOption = async (id, voteOptionIndex, newVoteOption, userId) 
     const voteItem = voteItems[0];
     if (userId in voteItem.voteHistory) {
       log('info', `${userId} tried to vote twice. Rejected.`);
-      throw 'Same user/ip cannot vote twice';
+      return { error: 'Same user/ip cannot vote twice' };
     } else {
       // voting on existing vote option
       if (voteOptionIndex !== null && voteOptionIndex !== undefined) {

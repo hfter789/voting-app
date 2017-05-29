@@ -3,6 +3,13 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import {
+  ShareButtons,
+  generateShareIcon,
+} from 'react-share';
+
+const { FacebookShareButton } = ShareButtons;
+const FacebookIcon = generateShareIcon('facebook');
 
 class VoteSection extends Component {
   constructor(props) {
@@ -56,7 +63,7 @@ class VoteSection extends Component {
   }
 
   render() {
-    const { voteInfo: { topic, voteOptions }, errorMessage } = this.props;
+    const { voteInfo: { topic, voteOptions, id }, errorMessage } = this.props;
     const { currentOption } = this.state;
     const containerStyle = {
       width: '40%',
@@ -87,9 +94,17 @@ class VoteSection extends Component {
           disabled={!this.canSubmitVote()}
           label="Submit"
           primary={true}
-          style={{ marginTop: '20px' }}
+          style={{ marginTop: 20, marginBottom: 20 }}
           onClick={this.onVote}
         />
+        <FacebookShareButton
+            url={`${String(window.location)}/vote/${id}`}
+            title={topic}
+        >
+            <FacebookIcon
+              size={32}
+              round />
+          </FacebookShareButton>
       </div>
     );
   }

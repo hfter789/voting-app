@@ -67,6 +67,7 @@
     "react-relay": "^0.9.3",
     "react-router": "^3.0.0",
     "react-router-relay": "^0.13.5",
+    "react-share": "^1.13.3",
     "react-tap-event-plugin": "^2.0.0",
     "winston": "^2.3.1"
   },
