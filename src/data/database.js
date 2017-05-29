@@ -145,24 +145,45 @@ export const getUserPoll = async userId => {
   return result;
 };
 
-export const voteForOption = (id, voteOptionIndex, newVoteOption, userId) => {
-  const voteItems = getVoteById(id);
+export const voteForOption = async (id, voteOptionIndex, newVoteOption, userId) => {
+  log('info', `Vote for option id: ${id}, voteOptionIndex: ${voteOptionIndex}, newVoteOption: ${newVoteOption}, userId: ${userId}`)
+  if(!id || !userId) {
+    const error = `Id and userId cannot be undefined. Have id: ${id}, userId: ${userId}`;
+    log('error', error);
+    throw error;
+  }
+  const voteItems = await getVoteById(id);
   if (voteItems.length) {
     const voteItem = voteItems[0];
     if (userId in voteItem.voteHistory) {
       log('info', `${userId} tried to vote twice. Rejected.`);
       throw 'Same user/ip cannot vote twice';
     } else {
+      // voting on existing vote option
       if (voteOptionIndex !== null && voteOptionIndex !== undefined) {
-        voteItem.voteOptions[voteOptionIndex].voteCount++;
-        voteItem.voteHistory[userId] = voteOptionIndex;
+        await voteListCollection.updateOne({id: id}, {
+          $inc: {
+            [`voteOptions.${voteOptionIndex}.voteCount`]: 1
+          },
+          $set: {
+            [`voteHistory.${userId}`]: voteOptionIndex,
+          }
+        });
         log('info', `${userId} voted for ${voteOptionIndex} in ${id}`);
       } else if (newVoteOption) {
-        voteItem.voteOptions.push({
-          desc: newVoteOption,
-          voteCount: 1,
+        // new vote option is created
+        await voteListCollection.updateOne({id: id}, {
+          $push: {
+            voteOptions: {
+              desc: newVoteOption,
+              voteCount: 1,
+            },
+          },
+          $set: {
+            [`voteHistory.${userId}`]: voteItem.voteOptions.length,
+          }
         });
-        voteItem.voteHistory[userId] = voteItem.voteOptions.length - 1;
+        // voteItem.voteHistory[userId] = voteItem.voteOptions.length - 1;
         log(
           'info',
           `${userId} created a new option ${newVoteOption} for ${id}`
@@ -172,6 +193,7 @@ export const voteForOption = (id, voteOptionIndex, newVoteOption, userId) => {
       }
       return null;
     }
+  } else {
+    throw 'Vote Item not found';
   }
-  throw 'Vote Item not found';
 };

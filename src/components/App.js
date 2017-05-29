@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Header from './Header';
 import Paper from 'material-ui/Paper';
+import injectSession from '../network/relay-inject-session';
 
 class App extends Component {
   constructor(props) {
@@ -12,7 +13,9 @@ class App extends Component {
   }
 
   setLoginUser(userObject) {
-    sessionStorage.setItem('session', userObject.accessToken);
+    const { accessToken } = userObject;
+    sessionStorage.setItem('session', accessToken);
+    injectSession(accessToken);
   }
 
   render() {

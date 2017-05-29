@@ -11,6 +11,7 @@ import NoMatch from './components/NoMatch';
 import VoteInfo from './components/VoteInfo';
 import MyPolls from './components/MyPolls';
 import PollCreator from './components/PollCreator';
+import injectSession from './network/relay-inject-session';
 import './index.css';
 injectTapEventPlugin();
 
@@ -19,14 +20,7 @@ const voteListQuery = {
 };
 
 const session = sessionStorage.getItem('session') || '';
-
-Relay.injectNetworkLayer(
-  new Relay.DefaultNetworkLayer('/graphql', {
-    headers: {
-      Authorization: session,
-    },
-  })
-);
+injectSession(session);
 
 ReactDOM.render(
   <Router
