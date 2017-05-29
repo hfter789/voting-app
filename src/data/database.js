@@ -1,13 +1,11 @@
 import { log } from 'winston';
-import { MongoClient } from 'mongodb';
+import { MongoClient, ObjectId } from 'mongodb';
 
-const url = 'mongodb://localhost:27017/test';
-
-let currentId = 6;
-// import voteList from './initData';
+const url = process.env.MONGODB_URL || 'mongodb://localhost:27017/test';
 
 let voteListCollection;
 
+log('info', `Connecting to host ${url}`)
 MongoClient.connect(url, async (err, db) => {
   if (err) {
     log('error', err);
@@ -25,7 +23,6 @@ MongoClient.connect(url, async (err, db) => {
 export const createPoll = async (topic, voteOptions, author) => {
   log('info', `${author} created a poll on ${topic}`);
   await voteListCollection.insertOne({
-    id: currentId,
     author,
     topic,
     voteOptions: voteOptions.map(option => ({
@@ -34,16 +31,12 @@ export const createPoll = async (topic, voteOptions, author) => {
     })),
     voteHistory: {},
   });
-  // this approach would not work for multiple instance of node,
-  // we can use id from mongodb instead
-  currentId++;
-  return currentId - 1;
 };
 
 export const deletePoll = async (id, author) => {
   log('info', `author: ${author} request to delete poll with id: ${id}`)
   await voteListCollection.deleteOne({
-    id: +id,
+    _id: ObjectId(id),
     author,
   })
 };
@@ -52,7 +45,7 @@ export const getVoteById = async id => {
   log('info', `get vote by id: ${id}`);
   const query = {};
   if (id) {
-    query.id = +id;
+    query._id = ObjectId(id);
   }
   const result = await voteListCollection.find(query).toArray();
   log('info', `Result for id:${id} has size ${result.length}`);
@@ -81,7 +74,7 @@ export const voteForOption = async (id, voteOptionIndex, newVoteOption, userId) 
     } else {
       // voting on existing vote option
       if (voteOptionIndex !== null && voteOptionIndex !== undefined) {
-        await voteListCollection.updateOne({id: id}, {
+        await voteListCollection.updateOne({_id: ObjectId(id)}, {
           $inc: {
             [`voteOptions.${voteOptionIndex}.voteCount`]: 1
           },
@@ -92,7 +85,7 @@ export const voteForOption = async (id, voteOptionIndex, newVoteOption, userId) 
         log('info', `${userId} voted for ${voteOptionIndex} in ${id}`);
       } else if (newVoteOption) {
         // new vote option is created
-        await voteListCollection.updateOne({id: id}, {
+        await voteListCollection.updateOne({_id: ObjectId(id)}, {
           $push: {
             voteOptions: {
               desc: newVoteOption,

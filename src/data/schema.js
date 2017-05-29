@@ -52,6 +52,7 @@ const voteType = new GraphQLObjectType({
   fields: () => ({
     id: {
       type: new GraphQLNonNull(GraphQLID),
+      resolve: ({_id: id,}) => id
     },
     topic: {
       type: GraphQLString,

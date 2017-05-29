@@ -15,11 +15,11 @@ class VoteListComponent extends Component {
     }
     return (
       <List>
-        { 
+        {
           voteList.map((voteTopicObj) => {
             const { id, topic } = voteTopicObj;
             return (
-              <div style={{ position: 'relative' }}>
+              <div style={{ position: 'relative' }} key={id}>
                 <Link
                   to={`/vote/${id}`}
                   key={id}

@@ -6,10 +6,6 @@ var Schema = require('./src/data/schema').Schema;
 var app = express();
 const localCache = {};
 
-// TODO: before passing information straight to graphql,
-// we need to authenticate user by their access token,
-// using endpoint https://graph.facebook.com/me?access_token=<ACCESS TOKEN>
-
 function getSessionData(req, resp, next) {
   var { authorization: authToken } = req.headers;
   if (localCache[authToken]) {
