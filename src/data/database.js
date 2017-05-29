@@ -139,8 +139,8 @@ export const getVoteById = async id => {
   return result;
 };
 
-export const getUserPoll = userId => {
-  const result = voteList.filter(voteItem => userId === voteItem.author);
+export const getUserPoll = async userId => {
+  const result = await voteListCollection.find({author: userId}).toArray();
   log('info', `${userId} gets user poll: ${result.length} result(s)`);
   return result;
 };
