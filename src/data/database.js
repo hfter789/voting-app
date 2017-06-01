@@ -11,13 +11,6 @@ MongoClient.connect(url, async (err, db) => {
     log('error', err);
   }
   voteListCollection = db.collection('voteList');
-  // const currentList = getVoteById();
-  // if (!currentList.length) {
-  //   voteListCollection.insertMany(voteList, (err, result) => {
-  //     log('error', err);
-  //     log('info', result);
-  //   });
-  // }
 });
 
 export const createPoll = async (topic, voteOptions, author) => {
@@ -41,15 +34,13 @@ export const deletePoll = async (id, author) => {
   })
 };
 
-export const getVoteById = async id => {
+export const getVoteById = id => {
   log('info', `get vote by id: ${id}`);
   const query = {};
   if (id) {
     query._id = ObjectId(id);
   }
-  const result = await voteListCollection.find(query).toArray();
-  log('info', `Result for id:${id} has size ${result.length}`);
-  return result;
+  return voteListCollection.find(query).toArray();
 };
 
 export const getUserPoll = async userId => {
@@ -63,7 +54,7 @@ export const voteForOption = async (id, voteOptionIndex, newVoteOption, userId) 
   if(!id || !userId) {
     const error = `Id and userId cannot be undefined. Have id: ${id}, userId: ${userId}`;
     log('error', error);
-    throw error;
+    // throw error;
   }
   const voteItems = await getVoteById(id);
   if (voteItems.length) {
@@ -102,11 +93,11 @@ export const voteForOption = async (id, voteOptionIndex, newVoteOption, userId) 
           `${userId} created a new option ${newVoteOption} for ${id}`
         );
       } else {
-        throw 'Please provide either voteOptionIndex or newVoteOption';
+        // throw 'Please provide either voteOptionIndex or newVoteOption';
       }
       return null;
     }
   } else {
-    throw 'Vote Item not found';
+    // throw 'Vote Item not found';
   }
 };
