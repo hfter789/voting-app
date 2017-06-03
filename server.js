@@ -45,6 +45,6 @@ app.use('/graphql', getSessionData, graphQLHTTP(({ userId }) =>({
 
 app.use(serveStatic('build'));
 
-app.listen(isDev ? 4080 : 3000, function() {
+app.listen(isDev ? 4080 : (process.env.PORT || 3000), function() {
   console.log(`${isDev ? 'development' : 'production'} Server is running!`);
 });
