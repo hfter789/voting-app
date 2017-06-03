@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Relay from 'react-relay';
+import { browserHistory } from 'react-router';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import get from 'lodash/get';
@@ -34,6 +35,9 @@ class PollCreator extends Component {
         voteOptions: voteOptionTokens,
       })
     , {
+      onSuccess: () => {
+        browserHistory.push('/mypolls');
+      },
       onFailure: (transaction) => {
         const errorMessage = get(transaction.getError(), 'source.errors.0.message');
         self.setState({

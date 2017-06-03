@@ -29,7 +29,7 @@ type Query {
 }
 
 input voteForOptionInput {
-  id: Int
+  id: String
   voteOptionIndex: Int
   newVoteOption: String
   clientMutationId: String

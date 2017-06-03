@@ -94,7 +94,7 @@ const VoteRoot = new GraphQLObjectType({
 const VoteForOptionMutation = mutationWithClientMutationId({
   name: 'voteForOption',
   inputFields: {
-    id: { type: GraphQLInt },
+    id: { type: GraphQLString },
     voteOptionIndex: { type: GraphQLInt },
     newVoteOption: { type: GraphQLString },
   },

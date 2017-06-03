@@ -34,13 +34,13 @@ export const deletePoll = async (id, author) => {
   })
 };
 
-export const getVoteById = id => {
+export const getVoteById = async id => {
   log('info', `get vote by id: ${id}`);
   const query = {};
   if (id) {
     query._id = ObjectId(id);
   }
-  return voteListCollection.find(query).toArray();
+  return await voteListCollection.find(query).toArray();
 };
 
 export const getUserPoll = async userId => {
