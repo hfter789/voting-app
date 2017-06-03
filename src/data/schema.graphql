@@ -1,0 +1,61 @@
+input createPollMutationInput {
+  topic: String!
+  voteOptions: [String]!
+  clientMutationId: String
+}
+
+type createPollMutationPayload {
+  voteInfo: [VoteInfo]
+  clientMutationId: String
+}
+
+input deletePollMutationInput {
+  id: String!
+  clientMutationId: String
+}
+
+type deletePollMutationPayload {
+  clientMutationId: String
+}
+
+type Mutation {
+  voteForOption(input: voteForOptionInput!): voteForOptionPayload
+  createPoll(input: createPollMutationInput!): createPollMutationPayload
+  deletePoll(input: deletePollMutationInput!): deletePollMutationPayload
+}
+
+type Query {
+  root: VoteRoot
+}
+
+input voteForOptionInput {
+  id: Int
+  voteOptionIndex: Int
+  newVoteOption: String
+  clientMutationId: String
+}
+
+type voteForOptionPayload {
+  voteInfo: [VoteInfo]
+  error: String
+  clientMutationId: String
+}
+
+# vote summary about how many votes each options get
+type VoteInfo {
+  id: ID!
+  topic: String
+  voteOptions: [VoteOption]
+}
+
+# the vote option description and vote option count
+type VoteOption {
+  desc: String
+  voteCount: Int
+}
+
+# root of the query
+type VoteRoot {
+  vote(id: ID): [VoteInfo]
+  userVote: [VoteInfo]
+}

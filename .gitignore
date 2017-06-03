@@ -1,9 +1,5 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
-#graphql
-src/data/schema.graphql
-src/data/schema.json
-
 # dependencies
 node_modules
 
